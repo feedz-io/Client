@@ -1,0 +1,6 @@
+version: '{build}'
+build_script:
+- cmd: build.ps1
+test: off
+artifacts:
+- path: artifacts\**\*.*
