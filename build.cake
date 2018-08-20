@@ -87,14 +87,14 @@ Task("Publish")
     .IsDependentOn("Pack")
     .Does(() =>
     {
-        NuGetPush($"{artifactsDir}/Feedz.Client.{nugetVersion}.nupkg", new NuGetPushSettings {
+        NuGetPush($"{artifactsDir}Feedz.Client.{nugetVersion}.nupkg", new NuGetPushSettings {
             Source = "https://f.feedz.io/feedz-io/public/nuget",
             ApiKey = EnvironmentVariable("FeedzApiKey")
         });
 
         if (string.IsNullOrWhiteSpace(gitVersionInfo.PreReleaseLabel))
         {
-            NuGetPush($"{artifactsDir}/Feedz.Client.{nugetVersion}.nupkg", new NuGetPushSettings {
+            NuGetPush($"{artifactsDir}Feedz.Client.{nugetVersion}.nupkg", new NuGetPushSettings {
                 Source = "https://www.nuget.org/api/v2/package",
                 ApiKey = EnvironmentVariable("NuGetApiKey")
             });
