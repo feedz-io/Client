@@ -3,6 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Feedz.Client</RootNamespace>
     <AssemblyName>Feedz.Client</AssemblyName>
+    <PackageId>Feedz.Client</PackageId>
+    <Authors>Feedz.io</Authors>
+    <Copyright>Tesseract Labs Pty Ltd</Copyright>
+    <PackageIconUrl>https://feedz.io/images/LogoIconDark.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/feedz-io/Client</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/feedz-io/Client</RepositoryUrl>
+    <Description>.NET Client libary for Feedz.io API</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
