@@ -82,8 +82,27 @@ Task("Pack")
         });
     });
 
+Task("Publish")
+    .WithCriteria(BuildSystem.IsRunningOnAppVeyor)
+    .IsDependentOn("Pack")
+    .Does(() =>
+    {
+        NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
+            Source = "https://f.feedz.io/feedz-io/public/nuget",
+            ApiKey = EnvironmentVariable("FeedzApiKey")
+        });
+
+        if (string.IsNullOrWhiteSpace(gitVersionInfo.PreReleaseLabel))
+        {
+            NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
+                Source = "https://www.nuget.org/api/v2/package",
+                ApiKey = EnvironmentVariable("NuGetApiKey")
+            });
+        }
+    });
+
 Task("Default")
-    .IsDependentOn("Pack");
+    .IsDependentOn("Publish");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
