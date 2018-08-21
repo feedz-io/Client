@@ -27,6 +27,6 @@ namespace Feedz.Client.Resources
 
         public string AuthProviderPictureUri { get; set; }
 
-        public PictureSource PictureSource { get; set; }
+        public string PictureSource { get; set; }
     }
 }

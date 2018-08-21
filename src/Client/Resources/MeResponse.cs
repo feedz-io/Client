@@ -13,7 +13,7 @@ namespace Feedz.Client.Resources
         public string LastName { get; set; }
         public string Email { get; set; }
         public string AuthProviderPictureUri { get; set; }
-        public PictureSource PictureSource { get; set; }
+        public string PictureSource { get; set; }
         public IReadOnlyList<Organisation> Organisations { get; set; }
 
         public class Organisation

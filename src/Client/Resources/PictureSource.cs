@@ -1,9 +1,9 @@
 ﻿namespace Feedz.Client.Resources
 {
-    public enum PictureSource
+    public static class PictureSources
     {
-        None,
-        AuthProvider,
-        Gravatar
+        public const string None = "None";
+        public const string AuthProvider = "AuthProvider";
+        public const string Gravatar = "Gravatar";
     }
 }
