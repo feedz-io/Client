@@ -33,7 +33,7 @@ namespace Feedz.Client
             => await _httpClientWrapper.Get<MeResponse>("me");
 
         public static FeedzClient Create(string pat)
-            => Create("http://feedz.io", pat);
+            => Create(pat, "https://feedz.io");
 
         public static FeedzClient Create(string pat, String uri)
         {
