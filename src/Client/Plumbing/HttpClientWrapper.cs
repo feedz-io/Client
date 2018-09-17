@@ -37,7 +37,7 @@ namespace Feedz.Client.Plumbing
         public HttpClientWrapper(HttpClient client, string pat)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("PAT", pat);
-            client.BaseAddress = new Uri(client.BaseAddress, "api/");
+           // client.BaseAddress = new Uri(client.BaseAddress, "api/");
             _client = client;
         }
 

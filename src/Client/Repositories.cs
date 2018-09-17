@@ -5,25 +5,22 @@ using Feedz.Client.Resources;
 
 namespace Feedz.Client
 {
-    public class Repositories
+    public class Repositories : ApiEndpoint
     {
-        private readonly IHttpClientWrapper _httpClientWrapper;
 
         internal Repositories(OrganisationScope organisationScope, IHttpClientWrapper httpClientWrapper)
+            : base(organisationScope.RootUri + "/repositories", httpClientWrapper)
         {
-            RootUri = organisationScope.RootUri + "/repositories";
-            _httpClientWrapper = httpClientWrapper;
         }
 
-        public string RootUri { get; }
 
         public Task<IReadOnlyList<RepositoryResource>> List()
-            => _httpClientWrapper.List<RepositoryResource>(RootUri);
+            => HttpClientWrapper.List<RepositoryResource>(RootUri);
 
         public Task<RepositoryResource> Get(string slug)
-            => _httpClientWrapper.Get<RepositoryResource>($"{RootUri}/{slug}");
+            => HttpClientWrapper.Get<RepositoryResource>($"{RootUri}/{slug}");
 
         public Task<RepositoryResource> Create(RepositoryCreateResource resource)
-            => _httpClientWrapper.Create<RepositoryResource>(RootUri, resource);
+            => HttpClientWrapper.Create<RepositoryResource>(RootUri, resource);
     }
 }

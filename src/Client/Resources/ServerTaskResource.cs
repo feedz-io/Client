@@ -14,4 +14,13 @@ namespace Feedz.Client.Resources
         public DateTimeOffset? Completed { get; set; }
         public string Message { get; set; }
     }
+
+    public static class ServerTaskStates
+    {
+        public const string Queued = "Queued";
+        public const string Running = "Running";
+        public const string Cancelled = "Cancelled";
+        public const string Success = "Success";
+        public const string Failed = "Failed";
+    }
 }

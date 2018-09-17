@@ -11,10 +11,13 @@ namespace Feedz.Client
             Packages = new Packages(this, httpClientWrapper);
             Integrations = new Integrations(this, httpClientWrapper);
             Triggers = new Triggers(this, httpClientWrapper);
+            Tasks = new RepositoryServerTasks(this, httpClientWrapper);
         }
 
         public Packages Packages { get; }
         public Integrations Integrations { get; }
         public Triggers Triggers { get; }
+        public RepositoryServerTasks Tasks { get; }
+
     }
 }
