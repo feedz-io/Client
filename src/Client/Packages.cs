@@ -17,11 +17,12 @@ namespace Feedz.Client
             _httpClientWrapper = httpClientWrapper;
         }
 
-        public Task<PackageHeaderResource> Upload(Stream stream, string originalFilename, bool force = false)
+        public Task<PackageHeaderResource> Upload(Stream stream, string originalFilename, bool force = false, string region = null)
         {
             var formValues = new Dictionary<string, string>
             {
                 {"force", force.ToString()},
+                {"region", region}
             };
             return _httpClientWrapper.Create<PackageHeaderResource>($"{_rootUri}/upload", stream, originalFilename, formValues);
         }
