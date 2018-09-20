@@ -35,9 +35,13 @@ namespace Feedz.Client
         public static FeedzClient Create(string pat)
             => Create(pat, "https://feedz.io");
 
-        public static FeedzClient Create(string pat, String uri)
+        public static FeedzClient Create(string pat, string uri)
         {
-            var wrapper = new HttpClientWrapper(new Uri(uri), pat);
+            var apiUri = new Uri(uri);
+            if (!apiUri.IsLoopback)
+                apiUri = new Uri(apiUri, "api/");
+
+            var wrapper = new HttpClientWrapper(apiUri, pat);
             return new FeedzClient(wrapper);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Feedz.Client.Plumbing;
@@ -27,14 +28,23 @@ namespace Feedz.Client
             return _httpClientWrapper.Create<PackageHeaderResource>($"{_rootUri}/upload", stream, originalFilename, formValues);
         }
 
-        public Task<IReadOnlyList<PackageHeaderResource>> List(string[] packageIds = null)
+        public Task<IReadOnlyList<PackageHeaderResource>> List(Guid[] ids = null, string[] packageIds = null)
             => _httpClientWrapper.List<PackageHeaderResource>(
-                UrlTemplate.Resolve(_rootUri + "{?packageIds}", new {packageIds})
+                UrlTemplate.Resolve(_rootUri + "{?packageIds,ids}", new {ids, packageIds})
             );
+
+        public Task<Stream> Download(PackageHeaderResource package)
+            => Download(package.PackageId, package.Version);
 
         public Task<Stream> Download(string packageId, string version)
             => _httpClientWrapper.Get<Stream>(
                 UrlTemplate.Resolve($"{_rootUri}/{packageId}/{version}/download", new {packageId, version})
             );
+
+        public Task Delete(PackageHeaderResource package)
+            => Delete(package.PackageId, package.Version);
+
+        public Task Delete(string packageId, string version)
+            => _httpClientWrapper.Remove(UrlTemplate.Resolve($"{_rootUri}/{packageId}/{version}", new {packageId, version}));
     }
 }
