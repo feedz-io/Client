@@ -59,7 +59,7 @@ namespace Feedz.Client.Plumbing
                 streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 content.Add(streamContent, "file", originalFilename);
                 foreach (var pair in formValues)
-                    content.Add(pair.Value == null ? null : new StringContent(pair.Value), pair.Key);
+                    content.Add(new StringContent(pair.Value ?? ""), pair.Key);
 
                 //content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
