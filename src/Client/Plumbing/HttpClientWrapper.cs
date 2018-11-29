@@ -23,21 +23,43 @@ namespace Feedz.Client.Plumbing
         Task Remove(string path);
     }
 
+    internal class FeedClientWrapper : HttpClientWrapper
+    {
+        const string ApiKeyHeader = "Feedz-Api-Key";
+
+        public FeedClientWrapper(Uri baseAddress, string pat)
+            : this(new HttpClient() {BaseAddress = baseAddress}, pat)
+        {
+            OwnsClient = true;
+        }
+
+        public FeedClientWrapper(HttpClient client, string pat)
+            : base()
+        {
+            Client = client;
+            Client.DefaultRequestHeaders.Add(ApiKeyHeader, pat);
+        }
+    }
+
     internal class HttpClientWrapper : IHttpClientWrapper
     {
-        private readonly bool _ownsClient;
-        private readonly HttpClient _client;
+        protected bool OwnsClient { get; set; }
+        protected HttpClient Client { get; set; }
+
+        protected HttpClientWrapper()
+        {
+        }
 
         public HttpClientWrapper(Uri baseAddress, string pat)
             : this(new HttpClient() {BaseAddress = baseAddress}, pat)
         {
-            _ownsClient = true;
+            OwnsClient = true;
         }
 
         public HttpClientWrapper(HttpClient client, string pat)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("PAT", pat);
-            _client = client;
+            Client = client;
         }
 
         public Task<IReadOnlyList<T>> List<T>(string path)
@@ -45,7 +67,7 @@ namespace Feedz.Client.Plumbing
 
         public async Task<T> Get<T>(string path)
         {
-            var response = await _client.GetAsync(path);
+            var response = await Client.GetAsync(path);
             var body = await ProcessResponse<T>(path, response);
             return body;
         }
@@ -59,11 +81,11 @@ namespace Feedz.Client.Plumbing
                 streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 content.Add(streamContent, "file", originalFilename);
                 foreach (var pair in formValues)
-                    content.Add(new StringContent(pair.Value ?? ""  ), pair.Key);
+                    content.Add(new StringContent(pair.Value ?? ""), pair.Key);
 
                 //content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
-                var response = await _client.PostAsync(path, content);
+                var response = await Client.PostAsync(path, content);
                 var body = await ProcessResponse<T>(path, response);
 
                 return body;
@@ -80,7 +102,7 @@ namespace Feedz.Client.Plumbing
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
-            var response = await _client.PostAsync(path, content);
+            var response = await Client.PostAsync(path, content);
             var body = await ProcessResponse<T>(path, response);
 
             return body;
@@ -96,7 +118,7 @@ namespace Feedz.Client.Plumbing
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
-            var response = await _client.PostAsync(path, content);
+            var response = await Client.PostAsync(path, content);
             await ProcessResponse(path, response);
         }
 
@@ -105,7 +127,7 @@ namespace Feedz.Client.Plumbing
             var json = JsonConvert.SerializeObject(resource);
             var content = new StringContent(json, Encoding.UTF8);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await _client.PutAsync(path, content);
+            var response = await Client.PutAsync(path, content);
             var body = await ProcessResponse<T>(path, response);
 
             return body;
@@ -113,7 +135,7 @@ namespace Feedz.Client.Plumbing
 
         public async Task Remove(string path)
         {
-            var response = await _client.DeleteAsync(path);
+            var response = await Client.DeleteAsync(path);
             await ProcessResponse(path, response);
         }
 
@@ -125,20 +147,22 @@ namespace Feedz.Client.Plumbing
             void CheckSuccess(string content)
             {
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
-                    throw new HttpRequestException("Unauthorised: " + content);
+                    throw new FeedzHttpRequestException(response.StatusCode, "Unauthorised: " + content);
                 if (response.StatusCode == HttpStatusCode.NotFound)
-                    throw new HttpRequestException("Not Found: " + path);
-
+                    throw new FeedzHttpRequestException(response.StatusCode, "Not Found: " + path);
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    throw new FeedzHttpRequestException(response.StatusCode, "Conflict: " + path);
+                
                 if (!response.IsSuccessStatusCode)
                 {
                     try
                     {
                         var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
-                        throw new HttpRequestException(error.Message);
+                        throw new FeedzHttpRequestException(response.StatusCode, error.Message);
                     }
                     catch (JsonException)
                     {
-                        throw new HttpRequestException($"Request error {response.StatusCode} to {path}{(string.IsNullOrWhiteSpace(content) ? "" : "\r\n")}{content}");
+                        throw new FeedzHttpRequestException(response.StatusCode, $"Request error {response.StatusCode} to {path}{(string.IsNullOrWhiteSpace(content) ? "" : "\r\n")}{content}");
                     }
                 }
             }
@@ -173,8 +197,8 @@ namespace Feedz.Client.Plumbing
 
         public void Dispose()
         {
-            if (_ownsClient)
-                _client?.Dispose();
+            if (OwnsClient)
+                Client?.Dispose();
         }
     }
 }

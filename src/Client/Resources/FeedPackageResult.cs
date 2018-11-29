@@ -2,7 +2,7 @@
 
 namespace Feedz.Client.Resources
 {
-    public class FeedPackageResource : IResource
+    public class FeedPackageResult
     {
         public Guid Id { get; set; }
         public string Type { get; set; }

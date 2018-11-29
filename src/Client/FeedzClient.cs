@@ -8,17 +8,19 @@ namespace Feedz.Client
 {
     public class FeedzClient : IDisposable
     {
-        private readonly IHttpClientWrapper _apiClientWrapper;
-        private readonly IHttpClientWrapper _feedClientWrapper;
-
+      
         internal FeedzClient(IHttpClientWrapper apiClientWrapper, IHttpClientWrapper feedClientWrapper)
         {
-            _apiClientWrapper = apiClientWrapper;
-            _feedClientWrapper = feedClientWrapper;
+            ApiClientWrapper = apiClientWrapper;
+            FeedClientWrapper = feedClientWrapper;
             Organisations = new Organisations(apiClientWrapper);
             Users = new Users(apiClientWrapper);
         }
 
+        internal IHttpClientWrapper ApiClientWrapper { get; }
+        internal IHttpClientWrapper FeedClientWrapper { get; }
+
+        public IFeedzLogger Log { get; set; }
         public Organisations Organisations { get; }
         public Users Users { get; }
 
@@ -26,13 +28,13 @@ namespace Feedz.Client
             => ScopeToOrganisation(organisation.Slug);
 
         public OrganisationScope ScopeToOrganisation(string slug)
-            => new OrganisationScope(slug, _apiClientWrapper, _feedClientWrapper);
+            => new OrganisationScope(slug, this);
 
         public RepositoryScope ScopeToRepository(string orgSlug, string repoSlug)
             => ScopeToOrganisation(orgSlug).ScopeToRepository(repoSlug);
 
         public async Task<MeResponse> Me()
-            => await _apiClientWrapper.Get<MeResponse>("me");
+            => await ApiClientWrapper.Get<MeResponse>("me");
 
         public static FeedzClient CreateAnonymous()
             => Create(null);
@@ -49,20 +51,20 @@ namespace Feedz.Client
                 apiUri = new Uri(apiUri, "api/");
             
             var apiClientWrapper = new HttpClientWrapper(apiUri, pat);
-            var feedClientWrapper = new HttpClientWrapper(feedUri, pat);
+            var feedClientWrapper = new FeedClientWrapper(feedUri, pat);
             return new FeedzClient(apiClientWrapper, feedClientWrapper);
         }
 
         public static FeedzClient Create(string pat, HttpClient apiClient, HttpClient feedClient)
         {
             var apiClientWrapper = new HttpClientWrapper(apiClient, pat);
-            var feedClientWrapper = new HttpClientWrapper(feedClient, pat);
+            var feedClientWrapper = new FeedClientWrapper(feedClient, pat);
             return new FeedzClient(apiClientWrapper, feedClientWrapper);
         }
 
         public void Dispose()
         {
-            _apiClientWrapper.Dispose();
+            ApiClientWrapper.Dispose();
         }
     }
 }

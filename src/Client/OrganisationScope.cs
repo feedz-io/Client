@@ -5,16 +5,14 @@ namespace Feedz.Client
 {
     public class OrganisationScope
     {
-        private readonly IHttpClientWrapper _apiClientWrapper;
-        private readonly IHttpClientWrapper _feedClientWrapper;
+        private readonly FeedzClient _client;
 
-        internal OrganisationScope(string slug, IHttpClientWrapper apiClientWrapper, IHttpClientWrapper feedClientWrapper)
+        internal OrganisationScope(string slug, FeedzClient client)
         {
+            _client = client;
             Slug = slug;
             RootUri = "organisations/" + slug;
-            _apiClientWrapper = apiClientWrapper;
-            _feedClientWrapper = feedClientWrapper;
-            Repositories = new Repositories(this, apiClientWrapper);
+            Repositories = new Repositories(this, client.ApiClientWrapper);
         }
 
         public string Slug { get; }
@@ -22,9 +20,9 @@ namespace Feedz.Client
         public Repositories Repositories { get; }
 
         public RepositoryScope ScopeToRepository(RepositoryResource repository)
-            => new RepositoryScope(this, repository.Slug, _apiClientWrapper, _feedClientWrapper);
+            => new RepositoryScope(this, repository.Slug, _client);
 
         public RepositoryScope ScopeToRepository(string slug)
-            => new RepositoryScope(this, slug, _apiClientWrapper, _feedClientWrapper);
+            => new RepositoryScope(this, slug, _client);
     }
 }
