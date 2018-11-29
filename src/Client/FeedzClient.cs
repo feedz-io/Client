@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Feedz.Client.Logging;
 using Feedz.Client.Plumbing;
 using Feedz.Client.Resources;
 
@@ -15,6 +16,7 @@ namespace Feedz.Client
             FeedClientWrapper = feedClientWrapper;
             Organisations = new Organisations(apiClientWrapper);
             Users = new Users(apiClientWrapper);
+            Log = new EmptyFeedzLogger();
         }
 
         internal IHttpClientWrapper ApiClientWrapper { get; }
