@@ -120,9 +120,14 @@ namespace Feedz.Client
             }
         }
 
-        public Task<IReadOnlyList<FeedPackageResult>> Get(string packageId, string version)
-            => _client.FeedClientWrapper.List<FeedPackageResult>(
+        public Task<FeedPackageResult> Get(string packageId, string version)
+            => _client.FeedClientWrapper.Get<FeedPackageResult>(
                 UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}/{version}", new {packageId, version})
+            );
+        
+        public Task<FeedPackageResult> GetLatest(string packageId, bool includePreRelease = false)
+            => _client.FeedClientWrapper.Get<FeedPackageResult>(
+                UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}/latest{?includePreRelease}", new {packageId, includePreRelease})
             );
 
         public Task<IReadOnlyList<FeedPackageResult>> All()

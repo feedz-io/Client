@@ -11,5 +11,6 @@ namespace Feedz.Client.Resources
         public bool IsPrerelease { get; set; }
         public bool Pinned { get; set; }
         public long PackageSize { get; set; }
+        public string Extension { get; set; }
     }
 }
