@@ -4,13 +4,13 @@ namespace Feedz.Client
 {
     public abstract class ApiEndpoint
     {
-        internal ApiEndpoint(string rootUri, IHttpClientWrapper httpClientWrapper)
+        internal ApiEndpoint(string rootUri, IHttpClientWrapper apiClientWrapper)
         {
             RootUri = rootUri;
-            HttpClientWrapper = httpClientWrapper;
+            ApiClientWrapper = apiClientWrapper;
         }
 
         public string RootUri { get; }
-        internal IHttpClientWrapper HttpClientWrapper { get; }
+        internal IHttpClientWrapper ApiClientWrapper { get; }
     }
 }

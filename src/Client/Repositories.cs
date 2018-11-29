@@ -8,19 +8,19 @@ namespace Feedz.Client
     public class Repositories : ApiEndpoint
     {
 
-        internal Repositories(OrganisationScope organisationScope, IHttpClientWrapper httpClientWrapper)
-            : base(organisationScope.RootUri + "/repositories", httpClientWrapper)
+        internal Repositories(OrganisationScope organisationScope, IHttpClientWrapper apiClientWrapper)
+            : base(organisationScope.RootUri + "/repositories", apiClientWrapper)
         {
         }
 
 
         public Task<IReadOnlyList<RepositoryResource>> List()
-            => HttpClientWrapper.List<RepositoryResource>(RootUri);
+            => ApiClientWrapper.List<RepositoryResource>(RootUri);
 
         public Task<RepositoryResource> Get(string slug)
-            => HttpClientWrapper.Get<RepositoryResource>($"{RootUri}/{slug}");
+            => ApiClientWrapper.Get<RepositoryResource>($"{RootUri}/{slug}");
 
         public Task<RepositoryResource> Create(RepositoryCreateResource resource)
-            => HttpClientWrapper.Create<RepositoryResource>(RootUri, resource);
+            => ApiClientWrapper.Create<RepositoryResource>(RootUri, resource);
     }
 }

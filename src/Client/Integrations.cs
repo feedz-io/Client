@@ -4,10 +4,10 @@ namespace Feedz.Client
 {
     public class Integrations : ApiEndpoint
     {
-        internal Integrations(RepositoryScope scope, IHttpClientWrapper httpClientWrapper)
-            : base($"{scope.RootUri}/integrations", httpClientWrapper)
+        internal Integrations(RepositoryScope scope, IHttpClientWrapper apiClientWrapper)
+            : base($"{scope.RootUri}/integrations", apiClientWrapper)
         {
-            OctopusDeploy = new OctopusDeployIntegration(this, httpClientWrapper);
+            OctopusDeploy = new OctopusDeployIntegration(this, apiClientWrapper);
         }
 
         public OctopusDeployIntegration OctopusDeploy { get; }

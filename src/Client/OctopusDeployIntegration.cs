@@ -6,22 +6,22 @@ namespace Feedz.Client
 {
     public class OctopusDeployIntegration : ApiEndpoint
     {
-        internal OctopusDeployIntegration(Integrations integrations, IHttpClientWrapper httpClientWrapper)
-            : base($"{integrations.RootUri}/octopus-deploy", httpClientWrapper)
+        internal OctopusDeployIntegration(Integrations integrations, IHttpClientWrapper apiClientWrapper)
+            : base($"{integrations.RootUri}/octopus-deploy", apiClientWrapper)
         {
         }
 
 
         public Task<OctopusIntegrationResource> Get()
-            => HttpClientWrapper.Get<OctopusIntegrationResource>(RootUri);
+            => ApiClientWrapper.Get<OctopusIntegrationResource>(RootUri);
 
         public Task Modify(OctopusIntegrationResource resource)
-            => HttpClientWrapper.Update<OctopusIntegrationResource>(RootUri, resource);
+            => ApiClientWrapper.Update<OctopusIntegrationResource>(RootUri, resource);
 
         public Task<OctopusIntegrationTestResponse> Test()
-            => HttpClientWrapper.Get<OctopusIntegrationTestResponse>($"{RootUri}/test");
+            => ApiClientWrapper.Get<OctopusIntegrationTestResponse>($"{RootUri}/test");
 
         public Task AddFeed()
-            => HttpClientWrapper.Create($"{RootUri}/add-feed");
+            => ApiClientWrapper.Create($"{RootUri}/add-feed");
     }
 }

@@ -8,21 +8,21 @@ namespace Feedz.Client
 {
     public class RepositoryServerTasks : ApiEndpoint
     {
-        internal RepositoryServerTasks(RepositoryScope repositories, IHttpClientWrapper httpClientWrapper)
-            : base(repositories.RootUri + "/tasks", httpClientWrapper)
+        internal RepositoryServerTasks(RepositoryScope repositories, IHttpClientWrapper apiClientWrapper)
+            : base(repositories.RootUri + "/tasks", apiClientWrapper)
         {
         }
 
         public Task<ServerTaskResource> Get(Guid id)
-            => HttpClientWrapper.Get<ServerTaskResource>($"{RootUri}/{id}");
+            => ApiClientWrapper.Get<ServerTaskResource>($"{RootUri}/{id}");
 
         public Task<ServerTaskResource> QueueImport(ImportTaskArgumentsResource args)
-            => HttpClientWrapper.Create<ServerTaskResource>(
+            => ApiClientWrapper.Create<ServerTaskResource>(
                 RootUri + "/import",
                 new ServerTaskQueueRequest<ImportTaskArgumentsResource>() {Arguments = args}
             );
 
         public Task<IReadOnlyList<ServerTaskLogLineResource>> Logs(Guid taskId)
-            => HttpClientWrapper.Get<IReadOnlyList<ServerTaskLogLineResource>>($"{RootUri}/{taskId}/logs");
+            => ApiClientWrapper.Get<IReadOnlyList<ServerTaskLogLineResource>>($"{RootUri}/{taskId}/logs");
     }
 }
