@@ -120,9 +120,9 @@ namespace Feedz.Client
             }
         }
 
-        public Task<IReadOnlyList<FeedPackageResult>> ListByPackageId(string packageId, string version)
+        public Task<IReadOnlyList<FeedPackageResult>> Get(string packageId, string version)
             => _client.FeedClientWrapper.List<FeedPackageResult>(
-                UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}/{version}", new {packageId})
+                UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}/{version}", new {packageId, version})
             );
 
         public Task<IReadOnlyList<FeedPackageResult>> All()
