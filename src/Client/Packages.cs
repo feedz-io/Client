@@ -65,7 +65,7 @@ namespace Feedz.Client
 
                 var signature = await _client.FeedClientWrapper.Get<PackageDeltaSignatureResult>(
                     UrlTemplate.Resolve(
-                        _feedRootUri + "/packages/{packageId}/{version}/delta-signature",
+                        _feedRootUri + "/delta-signature/{packageId}/{version}",
                         new {packageId, version}
                     )
                 );
@@ -81,7 +81,7 @@ namespace Feedz.Client
                     {
                         var result = await _client.FeedClientWrapper.Create<FeedPackageResult>(
                             UrlTemplate.Resolve(
-                                _feedRootUri + "/packages/{packageId}/{baseVersion}/delta{?replace,region}",
+                                _feedRootUri + "/delta/{packageId}/{baseVersion}{?replace,region}",
                                 new {packageId, baseVersion = signature.BaseVersion, replace, region}
                             ),
                             delta,

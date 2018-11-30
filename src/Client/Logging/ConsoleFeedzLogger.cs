@@ -2,7 +2,7 @@ using System;
 
 namespace Feedz.Client.Logging
 {
-    public class ConsoleFeedLogger : IFeedzLogger
+    public class ConsoleFeedzLogger : IFeedzLogger
     {
         public void Info(string message)
             => Console.WriteLine(message);
