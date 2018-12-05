@@ -19,13 +19,8 @@ namespace Feedz.Client.Resources
         public string MinClientVersion { get; set; }
         public string ReportAbuseUrl { get; set; }
         public IReadOnlyList<string> SupportedFrameworks { get; set; }
-        public bool SemVer1IsAbsoluteLatest { get; set; }
-        public bool SemVer1IsLatest { get; set; }
-        public bool SemVer2IsAbsoluteLatest { get; set; }
-        public bool SemVer2IsLatest { get; set; }
         public bool IsSemVer2 { get; set; }
-        public string PackageHash { get; set; }
-        public string PackageHashAlgorithm { get; set; }
+        public string PackageSha256 { get; set; }
 
         public class DependencyGroup
         {

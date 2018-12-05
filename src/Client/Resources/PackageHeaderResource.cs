@@ -17,5 +17,6 @@ namespace Feedz.Client.Resources
         public long PackageSize { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset LastUpdated { get; set; }
+        public string DownloadLink { get; set; }
     }
 }
