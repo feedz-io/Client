@@ -27,6 +27,7 @@ namespace Feedz.Client
             _feedRootUri = $"{scope.OrganisationScope.Slug}/{scope.Slug}";
         }
 
+        public Uri FeedUri => new Uri(_client.FeedClientWrapper.BaseAddress, _feedRootUri);
 
         public async Task<FeedPackageResult> Upload(string filePath, bool replace = false, string region = null)
         {

@@ -21,6 +21,7 @@ namespace Feedz.Client.Plumbing
         Task Create(string path, IResource resource = null);
         Task<T> Update<T>(string path, IResource resource);
         Task Remove(string path);
+        Uri BaseAddress { get; }
     }
 
     internal class FeedClientWrapper : HttpClientWrapper
@@ -61,6 +62,8 @@ namespace Feedz.Client.Plumbing
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("PAT", pat);
             Client = client;
         }
+
+        public Uri BaseAddress => Client.BaseAddress;
 
         public Task<IReadOnlyList<T>> List<T>(string path)
             => Get<IReadOnlyList<T>>(path);
