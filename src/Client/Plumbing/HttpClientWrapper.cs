@@ -147,10 +147,12 @@ namespace Feedz.Client.Plumbing
             void CheckSuccess(string content)
             {
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
-                    throw new FeedzHttpRequestException(response.StatusCode, "Unauthorised: " + content);
+                    throw new FeedzHttpRequestException(response.StatusCode, "Unauthorised" + (string.IsNullOrWhiteSpace(content) ? "" : $": {content}") );
+                if (response.StatusCode == HttpStatusCode.Forbidden)
+                    throw new FeedzHttpRequestException(response.StatusCode, "Forbidden" + (string.IsNullOrWhiteSpace(content) ? "" : $": {content}") );
                 if (response.StatusCode == HttpStatusCode.NotFound)
                     throw new FeedzHttpRequestException(response.StatusCode, "Not Found: " + path);
-                if (response.StatusCode == HttpStatusCode.NotFound)
+                if (response.StatusCode == HttpStatusCode.Conflict)
                     throw new FeedzHttpRequestException(response.StatusCode, "Conflict: " + path);
                 
                 if (!response.IsSuccessStatusCode)

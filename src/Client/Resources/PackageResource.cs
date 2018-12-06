@@ -21,6 +21,7 @@ namespace Feedz.Client.Resources
         public IReadOnlyList<string> SupportedFrameworks { get; set; }
         public bool IsSemVer2 { get; set; }
         public string PackageSha256 { get; set; }
+        public string DownloadLink { get; set; }
 
         public class DependencyGroup
         {
