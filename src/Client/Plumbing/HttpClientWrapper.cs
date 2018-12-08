@@ -162,6 +162,9 @@ namespace Feedz.Client.Plumbing
                 {
                     try
                     {
+                        if(string.IsNullOrWhiteSpace(content))
+                            throw new FeedzHttpRequestException(response.StatusCode, "Server Error");
+                            
                         var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
                         throw new FeedzHttpRequestException(response.StatusCode, error.Message);
                     }
