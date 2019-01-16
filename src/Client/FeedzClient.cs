@@ -26,6 +26,18 @@ namespace Feedz.Client
         public Organisations Organisations { get; }
         public Users Users { get; }
 
+        public TimeSpan FeedTimeout
+        {
+            get => FeedClientWrapper.Timeout;
+            set => FeedClientWrapper.Timeout = value;
+        }
+        
+        public TimeSpan ApiTimeout
+        {
+            get => FeedClientWrapper.Timeout;
+            set => FeedClientWrapper.Timeout = value;
+        }
+
         public OrganisationScope ScopeToOrganisation(OrganisationResource organisation)
             => ScopeToOrganisation(organisation.Slug);
 

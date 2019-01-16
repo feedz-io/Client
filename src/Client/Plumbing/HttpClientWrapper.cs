@@ -22,6 +22,7 @@ namespace Feedz.Client.Plumbing
         Task<T> Update<T>(string path, IResource resource);
         Task Remove(string path);
         Uri BaseAddress { get; }
+        TimeSpan Timeout { get; set; }
     }
 
     internal class FeedClientWrapper : HttpClientWrapper
@@ -64,6 +65,12 @@ namespace Feedz.Client.Plumbing
         }
 
         public Uri BaseAddress => Client.BaseAddress;
+
+        public TimeSpan Timeout
+        {
+            get => Client.Timeout;
+            set => Client.Timeout = value;
+        }
 
         public Task<IReadOnlyList<T>> List<T>(string path)
             => Get<IReadOnlyList<T>>(path);
