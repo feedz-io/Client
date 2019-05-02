@@ -18,17 +18,21 @@ namespace Feedz.Client.Resources
 
         public class Organisation
         {
+            public Guid Id { get; set; }
             public string Name { get; set; }
             public string Slug { get; set; }
             public bool IsDefault { get; set; }
-            public bool IsOwner { get; set; }
             public IReadOnlyList<Repository> Repositories { get; set; }
+            public bool ManageTeamsMembersAndServiceAccounts { get; set; }
+            public bool ManageSubscription { get; set; }
         }
 
         public class Repository
         {
+            public Guid Id { get; set; }
             public string Slug { get; set; }
             public string Name { get; set; }
+            public bool CanChangeRepositorySettings { get; set; }
         }
 
     }

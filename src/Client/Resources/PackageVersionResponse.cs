@@ -12,5 +12,6 @@ namespace Feedz.Client.Resources
         public bool Pinned { get; set; }
         public long PackageSize { get; set; }
         public DateTimeOffset LastUpdated { get; set; }
+        public string Tags { get; set; }
     }
 }

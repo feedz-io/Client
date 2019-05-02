@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Feedz.Client.Plumbing.Converters;
 using Newtonsoft.Json;
 using Feedz.Client.Resources;
 using Feedz.Client.Resources.Integrations.Octopus;
+using Newtonsoft.Json.Serialization;
 
 namespace Feedz.Client.Plumbing
 {
@@ -18,7 +20,7 @@ namespace Feedz.Client.Plumbing
         Task<T> Get<T>(string path);
         Task<T> Create<T>(string path, Stream stream, string originalFilename, Dictionary<string, string> formValues);
         Task<T> Create<T>(string path, IResource resource = null);
-        Task Create(string path, IResource resource = null);
+        Task Create(string path, object request = null);
         Task<T> Update<T>(string path, IResource resource);
         Task Remove(string path);
         Uri BaseAddress { get; }
@@ -45,6 +47,15 @@ namespace Feedz.Client.Plumbing
 
     internal class HttpClientWrapper : IHttpClientWrapper
     {
+        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            Converters = new[]
+            {
+                new PackageJsonConverter()
+            },
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
+
         protected bool OwnsClient { get; set; }
         protected HttpClient Client { get; set; }
 
@@ -118,12 +129,12 @@ namespace Feedz.Client.Plumbing
             return body;
         }
 
-        public async Task Create(string path, IResource resource = null)
+        public async Task Create(string path, object request = null)
         {
             StringContent content = null;
-            if (resource != null)
+            if (request != null)
             {
-                var json = JsonConvert.SerializeObject(resource);
+                var json = JsonConvert.SerializeObject(request, JsonSerializerSettings);
                 content = new StringContent(json, Encoding.UTF8);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
@@ -134,7 +145,7 @@ namespace Feedz.Client.Plumbing
 
         public async Task<T> Update<T>(string path, IResource resource)
         {
-            var json = JsonConvert.SerializeObject(resource);
+            var json = JsonConvert.SerializeObject(resource, JsonSerializerSettings);
             var content = new StringContent(json, Encoding.UTF8);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await Client.PutAsync(path, content);
@@ -157,22 +168,20 @@ namespace Feedz.Client.Plumbing
             void CheckSuccess(string content)
             {
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
-                    throw new FeedzHttpRequestException(response.StatusCode, "Unauthorised" + (string.IsNullOrWhiteSpace(content) ? "" : $": {content}") );
+                    throw new FeedzHttpRequestException(response.StatusCode, "Unauthorised" + (string.IsNullOrWhiteSpace(content) ? "" : $": {content}"));
                 if (response.StatusCode == HttpStatusCode.Forbidden)
-                    throw new FeedzHttpRequestException(response.StatusCode, "Forbidden" + (string.IsNullOrWhiteSpace(content) ? "" : $": {content}") );
+                    throw new FeedzHttpRequestException(response.StatusCode, "Forbidden" + (string.IsNullOrWhiteSpace(content) ? "" : $": {content}"));
                 if (response.StatusCode == HttpStatusCode.NotFound)
                     throw new FeedzHttpRequestException(response.StatusCode, "Not Found: " + path);
-                if (response.StatusCode == HttpStatusCode.Conflict)
-                    throw new FeedzHttpRequestException(response.StatusCode, "Conflict: " + path);
-                
+
                 if (!response.IsSuccessStatusCode)
                 {
                     try
                     {
-                        if(string.IsNullOrWhiteSpace(content))
+                        if (string.IsNullOrWhiteSpace(content))
                             throw new FeedzHttpRequestException(response.StatusCode, "Server Error");
-                            
-                        var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
+
+                        var error = JsonConvert.DeserializeObject<ErrorResponse>(content, JsonSerializerSettings);
                         throw new FeedzHttpRequestException(response.StatusCode, error.Message);
                     }
                     catch (JsonException)
@@ -189,7 +198,7 @@ namespace Feedz.Client.Plumbing
                     var json = await response.Content.ReadAsStringAsync();
                     CheckSuccess(json);
                     return readResponse
-                        ? JsonConvert.DeserializeObject<T>(json)
+                        ? JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings)
                         : default(T);
 
                 case "application/octet-stream":

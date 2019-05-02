@@ -22,5 +22,11 @@ namespace Feedz.Client
 
         public Task<RepositoryResource> Create(RepositoryCreateResource resource)
             => ApiClientWrapper.Create<RepositoryResource>(RootUri, resource);
+        
+        public Task<RepositoryResource> Update(RepositoryResource resource, string currentSlug = null)
+            => ApiClientWrapper.Update<RepositoryResource>($"{RootUri}/{currentSlug ?? resource.Slug}", resource);
+
+        public Task Remove(RepositoryResource resource)
+            => ApiClientWrapper.Remove($"{RootUri}/{resource.Slug}");
     }
 }

@@ -21,11 +21,12 @@ namespace Feedz.Client.Resources
         public DateTimeOffset Created { get; set; }
     }
 
-    public class CreatePersonalAccessTokenRequest
+    public class CreatePersonalAccessTokenRequest : IResource
     {
         public Guid? UserId { get; set; }
+        public Guid? ServiceAccountId { get; set; }
         public string Name { get; set; }
-        public string AccessLevel { get; set; }
+        public string AccessLevel { get; set; } = PersonalAccessTokenResource.AccessLevelEverything;
         public DateTimeOffset? Expires { get; set; }
     }
 

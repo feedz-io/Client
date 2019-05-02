@@ -25,10 +25,10 @@ namespace Feedz.Client
         public Task<OctopusCreateReleaseTriggerResource> Update(OctopusCreateReleaseTriggerResource resource)
             => ApiClientWrapper.Update<OctopusCreateReleaseTriggerResource>($"{RootUri}/{resource.Id}", resource);
 
-        public Task Delete(OctopusCreateReleaseTriggerResource resource)
-            => Delete(resource.Id);
+        public Task Remove(OctopusCreateReleaseTriggerResource resource)
+            => Remove(resource.Id);
         
-        public Task Delete(Guid id)    
+        public Task Remove(Guid id)    
             => ApiClientWrapper.Remove($"{RootUri}/{id}");
 
     }

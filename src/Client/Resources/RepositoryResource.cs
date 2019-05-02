@@ -23,5 +23,8 @@ namespace Feedz.Client.Resources
         public Guid Id { get; set; }
         public Guid OrganisationId { get; set; }
         public string CertificateThumbprint { get; set; }
+        public bool AutoRepack { get; set; }
+        public bool FeedUsed { get; set; }
+        public bool PatCreated { get; set; }
     }
 }

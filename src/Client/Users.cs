@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Feedz.Client.Plumbing;
 using Feedz.Client.Resources;
@@ -15,14 +16,13 @@ namespace Feedz.Client
             _httpClientWrapper = httpClientWrapper;
         }
 
-        public Task<IReadOnlyList<UserResource>> List()
-            => _httpClientWrapper.List<UserResource>(Root);
+        public Task<UserResource> Me()
+            => _httpClientWrapper.Get<UserResource>($"{Root}/me");
 
-        public Task<UserResource> Get(string id)
-            => _httpClientWrapper.Get<UserResource>($"{Root}{id}");
-
-
-        public Task<UserResource> Create(UserCreateResource resource)
-            => _httpClientWrapper.Create<UserResource>(Root, resource);
+        public Task<UserResource> Update(UserResource resource)
+            => _httpClientWrapper.Update<UserResource>($"{Root}/{resource.Id}", resource);
+        
+        public Task<IReadOnlyList<UserEventResource>> Events(UserResource resource)
+            => _httpClientWrapper.List<UserEventResource>($"{Root}/{resource.Id}/events");
     }
 }

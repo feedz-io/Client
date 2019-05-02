@@ -12,8 +12,9 @@ namespace Feedz.Client.Resources
         public string Package { get; set; }
         public string AccountName { get; set; }
         public long Bytes { get; set; }
+        public long? DeltaBytes { get; set; }
         public DateTimeOffset StartedAt { get; set; }
         public bool Successful { get; set; }
-        public bool IsUpload { get; set; }
+        public string Direction { get; set; }
     }
 }

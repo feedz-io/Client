@@ -10,6 +10,7 @@ namespace Feedz.Client.Resources
         public long QuotaUsedBytes { get; set; }
         public Transfer TransferredThisPeriod { get; set; }
         public Transfer TransferredPreviousPeriod { get; set; }
+        public RepositoryStatisticsResponse[] Repositories { get; set; }
 
         public class Transfer
         {

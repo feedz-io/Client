@@ -12,7 +12,6 @@ namespace Feedz.Client.Resources
         public DateTimeOffset Queued { get; set; }
         public DateTimeOffset? Started { get; set; }
         public DateTimeOffset? Completed { get; set; }
-        public string Message { get; set; }
     }
 
     public static class ServerTaskStates

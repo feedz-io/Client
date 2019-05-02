@@ -5,24 +5,26 @@ using Feedz.Client.Resources;
 
 namespace Feedz.Client
 {
-    public class Organisations
+    public class Organisations : ApiEndpoint
     {
-        private readonly IHttpClientWrapper _httpClientWrapper;
-        private readonly string _root;
-
         internal Organisations(IHttpClientWrapper httpClientWrapper)
+            : base("organisations", httpClientWrapper)
         {
-            _root = "organisations";
-            _httpClientWrapper = httpClientWrapper;
         }
 
         public Task<IReadOnlyList<OrganisationResource>> List()
-            => _httpClientWrapper.List<OrganisationResource>(_root);
+            => ApiClientWrapper.List<OrganisationResource>(RootUri);
 
         public Task<OrganisationResource> Get(string slug)
-            => _httpClientWrapper.Get<OrganisationResource>($"{_root}/{slug}");
+            => ApiClientWrapper.Get<OrganisationResource>($"{RootUri}/{slug}");
 
         public Task<OrganisationResource> Create(OrganisationCreateResource resource)
-            => _httpClientWrapper.Create<OrganisationResource>(_root, resource);
+            => ApiClientWrapper.Create<OrganisationResource>(RootUri, resource);
+        
+        public Task<OrganisationResource> Update(OrganisationResource resource, string currentSlug = null)
+            => ApiClientWrapper.Update<OrganisationResource>($"{RootUri}/{currentSlug ?? resource.Slug}", resource);
+
+        public Task Remove(OrganisationResource resource)
+            => ApiClientWrapper.Remove($"{RootUri}/{resource.Slug}");
     }
 }

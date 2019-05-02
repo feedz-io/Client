@@ -141,8 +141,8 @@ namespace Feedz.Client
                 UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}", new {packageId})
             );
 
-        public Task<IReadOnlyList<PackageHeaderResource>> List(Guid[] ids = null, string[] packageIds = null)
-            => _client.ApiClientWrapper.List<PackageHeaderResource>(
+        public Task<IReadOnlyList<PackageResource>> List(Guid[] ids = null, string[] packageIds = null)
+            => _client.ApiClientWrapper.List<PackageResource>(
                 UrlTemplate.Resolve(_rootUri + "{?packageIds,ids}", new {ids, packageIds})
             );
 

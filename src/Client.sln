@@ -7,6 +7,8 @@ ProjectSection(SolutionItems) = preProject
 	..\build.cake = ..\build.cake
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8173D743-B512-40E9-8388-0799E5E7CE94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +19,9 @@ Global
 		{0C5B7E89-BF7E-4411-BAC0-149D12CFDFE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C5B7E89-BF7E-4411-BAC0-149D12CFDFE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C5B7E89-BF7E-4411-BAC0-149D12CFDFE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8173D743-B512-40E9-8388-0799E5E7CE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8173D743-B512-40E9-8388-0799E5E7CE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8173D743-B512-40E9-8388-0799E5E7CE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8173D743-B512-40E9-8388-0799E5E7CE94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

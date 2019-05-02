@@ -11,11 +11,10 @@ namespace Feedz.Client
         {
         }
 
-
         public Task<OctopusIntegrationResource> Get()
             => ApiClientWrapper.Get<OctopusIntegrationResource>(RootUri);
 
-        public Task Modify(OctopusIntegrationResource resource)
+        public Task<OctopusIntegrationResource> Update(OctopusIntegrationResource resource)
             => ApiClientWrapper.Update<OctopusIntegrationResource>(RootUri, resource);
 
         public Task<OctopusIntegrationTestResponse> Test()

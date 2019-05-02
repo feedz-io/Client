@@ -13,6 +13,9 @@ namespace Feedz.Client
         {
         }
 
+        public Task<IReadOnlyList<ServerTaskResource>> List()
+            => ApiClientWrapper.List<ServerTaskResource>(RootUri);
+        
         public Task<ServerTaskResource> Get(Guid id)
             => ApiClientWrapper.Get<ServerTaskResource>($"{RootUri}/{id}");
 
