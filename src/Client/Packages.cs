@@ -256,13 +256,13 @@ namespace Feedz.Client
             }
         }
 
-        public Task Delete(FeedPackageResult package)
-            => Delete(package.PackageId, package.Version);
+        public Task Remove(FeedPackageResult package)
+            => Remove(package.PackageId, package.Version);
 
-        public Task Delete(PackageHeaderResource package)
-            => Delete(package.PackageId, package.Version);
+        public Task Remove(PackageHeaderResource package)
+            => Remove(package.PackageId, package.Version);
 
-        public Task Delete(string packageId, string version)
+        public Task Remove(string packageId, string version)
             => _client.FeedClientWrapper.Remove(UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}/{version}", new {packageId, version}));
     }
 }
