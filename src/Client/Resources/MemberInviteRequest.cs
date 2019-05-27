@@ -1,4 +1,6 @@
-﻿namespace Feedz.Client.Resources
+﻿using System;
+
+namespace Feedz.Client.Resources
 {
     public class MemberInviteRequest
     {
