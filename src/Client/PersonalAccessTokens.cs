@@ -22,8 +22,8 @@ namespace Feedz.Client
         public Task<PersonalAccessTokenResource> Get(Guid id)
             => ApiClientWrapper.Get<PersonalAccessTokenResource>($"{RootUri}/{id}");
 
-        public Task<PersonalAccessTokenResource> Create(CreatePersonalAccessTokenRequest request)
-            => ApiClientWrapper.Create<PersonalAccessTokenResource>(RootUri, request);
+        public Task<CreatePersonalAccessTokenResponse> Create(CreatePersonalAccessTokenRequest request)
+            => ApiClientWrapper.Create<CreatePersonalAccessTokenResponse>(RootUri, request);
         
         public Task<PersonalAccessTokenResource> Update(PersonalAccessTokenResource resource)
             => ApiClientWrapper.Update<PersonalAccessTokenResource>($"{RootUri}/{resource.Id}", resource);

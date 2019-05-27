@@ -13,8 +13,8 @@ namespace Feedz.Client.Resources
 
     public class ServiceAccountTeamResource
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public Guid TeamId { get; set; }
+        public string TeamName { get; set; }
     }
     
 }
