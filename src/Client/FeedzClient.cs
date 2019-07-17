@@ -16,6 +16,7 @@ namespace Feedz.Client
             FeedClientWrapper = feedClientWrapper;
             Organisations = new Organisations(apiClientWrapper);
             Users = new Users(apiClientWrapper);
+            Notifications = new Notifications(apiClientWrapper);
             PersonalAccessTokens = new PersonalAccessTokens(apiClientWrapper);
             Log = new EmptyFeedzLogger();
         }
@@ -27,6 +28,7 @@ namespace Feedz.Client
         public IFeedzLogger Log { get; set; }
         public Organisations Organisations { get; }
         public Users Users { get; }
+        public Notifications Notifications { get; }
 
         public PersonalAccessTokens PersonalAccessTokens { get; }
 

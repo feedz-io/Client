@@ -9,7 +9,9 @@
     <PackageIconUrl>https://feedz.io/images/LogoIconDark.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/feedz-io/Client</PackageProjectUrl>
     <RepositoryUrl>https://github.com/feedz-io/Client</RepositoryUrl>
-    <Description>.NET Client libary for Feedz.io API</Description>
+    <Description>.NET Client libary for Feedz.io API</Description>  
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
