@@ -1,4 +1,6 @@
-﻿using Feedz.Client.Plumbing;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Feedz.Client.Plumbing;
 using Feedz.Client.Resources;
 
 namespace Feedz.Client
@@ -26,7 +28,7 @@ namespace Feedz.Client
         public ServiceAccounts ServiceAccounts { get; }
         public Teams Teams { get; }
         public Billing Billing { get; }
-
+ 
         public RepositoryScope ScopeToRepository(RepositoryResource repository)
             => new RepositoryScope(this, repository.Slug, _client);
 

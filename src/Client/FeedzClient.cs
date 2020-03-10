@@ -67,10 +67,7 @@ namespace Feedz.Client
 
         public static FeedzClient Create(string pat, Uri apiUri, Uri feedUri)
         {
-            if (!apiUri.IsLoopback)
-                apiUri = new Uri(apiUri, "api/");
-            
-            var apiClientWrapper = new HttpClientWrapper(apiUri, pat);
+            var apiClientWrapper = new HttpClientWrapper(new Uri(apiUri, "api/"), pat);
             var feedClientWrapper = new FeedClientWrapper(feedUri, pat);
             return new FeedzClient(apiClientWrapper, feedClientWrapper);
         }
