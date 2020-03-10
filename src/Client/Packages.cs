@@ -30,13 +30,13 @@ namespace Feedz.Client
                 UrlTemplate.Resolve(_rootUri + "{?packageIds,ids}", new {ids, packageIds})
             );
         
-        public Task<IReadOnlyList<PackageResource>> GetLatest(string packageId)
-            => _client.ApiClientWrapper.List<PackageResource>(
+        public Task<PackageResource> GetLatest(string packageId)
+            => _client.ApiClientWrapper.Get<PackageResource>(
                 UrlTemplate.Resolve(_rootUri + "/{packageId}", new {packageId})
             );
         
-        public Task<IReadOnlyList<PackageResource>> Get(string packageId, string version)
-            => _client.ApiClientWrapper.List<PackageResource>(
+        public Task<PackageResource> Get(string packageId, string version)
+            => _client.ApiClientWrapper.Get<PackageResource>(
                 UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}", new {packageId, version})
             );
     }
