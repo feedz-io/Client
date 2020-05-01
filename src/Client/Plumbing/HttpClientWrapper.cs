@@ -71,7 +71,9 @@ namespace Feedz.Client.Plumbing
 
         public HttpClientWrapper(HttpClient client, string pat)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("PAT", pat);
+            if(pat != null)
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("PAT", pat);
+            
             Client = client;
         }
 
