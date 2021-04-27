@@ -19,6 +19,7 @@ namespace Feedz.Client
             ServiceAccounts = new ServiceAccounts(this, client.ApiClientWrapper);
             Teams = new Teams(this, client.ApiClientWrapper);
             Billing = new Billing(this, client.ApiClientWrapper);
+            CustomDomains = new CustomDomains(this, client.ApiClientWrapper);
         }
 
         public string Slug { get; }
@@ -28,7 +29,8 @@ namespace Feedz.Client
         public ServiceAccounts ServiceAccounts { get; }
         public Teams Teams { get; }
         public Billing Billing { get; }
- 
+        public CustomDomains CustomDomains { get; }
+
         public RepositoryScope ScopeToRepository(RepositoryResource repository)
             => new RepositoryScope(this, repository.Slug, _client);
 

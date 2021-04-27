@@ -19,6 +19,7 @@ namespace Feedz.Client
             Tasks = new RepositoryServerTasks(this, client.ApiClientWrapper);
             Agents = new Agents(this, client.ApiClientWrapper);
             InternalUpstreams = new InternalUpstreams(this, client.ApiClientWrapper);
+            CustomDomains = new CustomDomains(this, client.ApiClientWrapper);
         }
 
 
@@ -31,6 +32,7 @@ namespace Feedz.Client
         public RepositoryServerTasks Tasks { get; }
         public Agents Agents { get; }
         public InternalUpstreams InternalUpstreams { get; }
+        public CustomDomains CustomDomains { get; }
 
         public Task<IReadOnlyList<PackageTransferEventResource>> PackageTransferEvents(int skip = 0, int take = 1_000)
             => base.ApiClientWrapper.List<PackageTransferEventResource>($"{RootUri}/package-transfer-events?skip={skip}&take={take}");
