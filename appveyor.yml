@@ -8,6 +8,6 @@ environment:
   FeedzApiKey:
     secure: t1uaTrTw6lryUs3SLX/9TXZmDAgq/0Yy8R7svoeWP5AfQU1OgiyLwJS6cckJpqu8
   NuGetApiKey:
-    secure: d0r77EqsQqQ+JK87rGGA9f+vv+sM3RCSfbXhD87sviNQz3Ck3n3OOigf8WywtgNh
+    secure: g9UQREvFUr/BBxkDiYR95HlV0p9kVbrN/D/9jSLzNj8le2AX4dUx7AeLl1GU5KZi
   
 
