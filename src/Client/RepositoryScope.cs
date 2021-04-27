@@ -18,7 +18,9 @@ namespace Feedz.Client
             Triggers = new Triggers(this, client.ApiClientWrapper);
             Tasks = new RepositoryServerTasks(this, client.ApiClientWrapper);
             Agents = new Agents(this, client.ApiClientWrapper);
+            InternalUpstreams = new InternalUpstreams(this, client.ApiClientWrapper);
         }
+
 
         public OrganisationScope OrganisationScope { get; }
         public string Slug { get; }
@@ -28,8 +30,8 @@ namespace Feedz.Client
         public Triggers Triggers { get; }
         public RepositoryServerTasks Tasks { get; }
         public Agents Agents { get; }
-        
-               
+        public InternalUpstreams InternalUpstreams { get; }
+
         public Task<IReadOnlyList<PackageTransferEventResource>> PackageTransferEvents(int skip = 0, int take = 1_000)
             => base.ApiClientWrapper.List<PackageTransferEventResource>($"{RootUri}/package-transfer-events?skip={skip}&take={take}");
 
