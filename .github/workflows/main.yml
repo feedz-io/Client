@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Avoid pre-populating the NuGet package cache
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # all
+
+      - name: Setup .NET 6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+
+      - name: Run GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+
+      - name: Display SemVer
+        run: |
+            echo "SemVer: $GITVERSION_SEMVER"
+
+      - name: Restore
+        run: dotnet restore
+        working-directory: src
+
+      - name: Build
+        run: dotnet build -c Release --no-restore /p:Version=$GITVERSION_SEMVER
+        working-directory: src
+
+      - name: Test
+        run: dotnet test --no-build -c Release --logger trx --logger "console;verbosity=detailed" --results-directory ../artifacts
+        working-directory: src
+
+      - name: Pack
+        run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GITVERSION_SEMVER
+        working-directory: src
+
+      - name: Push NuGet packages to NuGet ⬆️
+        if: ${{ steps.gitversion.outputs.preReleaseTag == '' }}
+        working-directory: artifacts
+        run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.NUGET_APIKEY }} 
+
+      - name: Test Report 🧪
+        uses: dorny/test-reporter@v1
+        if: ${{ always() }}
+        with:
+          name: Tests
+          path: artifacts/*.trx
+          reporter: dotnet-trx
