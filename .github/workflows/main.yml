@@ -55,7 +55,7 @@ jobs:
       - name: Push NuGet packages to NuGet ⬆️
         if: ${{ steps.gitversion.outputs.preReleaseTag == '' }}
         working-directory: artifacts
-        run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.NUGET_APIKEY }} 
+        run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
 
       - name: Test Report 🧪
         uses: dorny/test-reporter@v1
