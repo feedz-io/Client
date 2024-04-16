@@ -22,6 +22,7 @@ namespace Feedz.Client.Plumbing
         Task<T> Create<T>(string path, IResource resource = null);
         Task Create(string path, object request = null);
         Task<T> Update<T>(string path, IResource resource);
+        Task Update(string path, object resource);
         Task Remove(string path);
         Uri BaseAddress { get; }
         TimeSpan Timeout { get; set; }
@@ -154,6 +155,15 @@ namespace Feedz.Client.Plumbing
             var body = await ProcessResponse<T>(path, response);
 
             return body;
+        }
+        
+        public async Task Update(string path, object resource)
+        {
+            var json = JsonConvert.SerializeObject(resource, JsonSerializerSettings);
+            var content = new StringContent(json, Encoding.UTF8);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await Client.PutAsync(path, content);
+            await ProcessResponse(path, response);
         }
 
         public async Task Remove(string path)
