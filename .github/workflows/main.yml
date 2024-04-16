@@ -53,7 +53,7 @@ jobs:
         working-directory: src
 
       - name: Push NuGet packages to NuGet ⬆️
-        if: ${{ steps.gitversion.outputs.preReleaseTag == '' }}
+        if: ${{ steps.gitversion.outputs.preReleaseLabel == '' }}
         working-directory: artifacts
         run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
 
