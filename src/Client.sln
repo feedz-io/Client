@@ -2,12 +2,24 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{0C5B7E89-BF7E-4411-BAC0-149D12CFDFE9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{E680E148-9A65-4AB8-B119-DEAFBDD8B03C}"
-ProjectSection(SolutionItems) = preProject
-	..\build.cake = ..\build.cake
-EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8173D743-B512-40E9-8388-0799E5E7CE94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{7BEEAC94-9615-4420-9B34-14514FA904F5}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitattributes = ..\.gitattributes
+		..\.gitignore = ..\.gitignore
+		..\GitVersion.yml = ..\GitVersion.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{111F16B9-E0E4-4F25-BD11-07AE0353C39A}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\dependabot.yml = ..\.github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{FF1EFC9D-A315-4779-BE65-3E8102BE9D35}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,5 +35,8 @@ Global
 		{8173D743-B512-40E9-8388-0799E5E7CE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8173D743-B512-40E9-8388-0799E5E7CE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8173D743-B512-40E9-8388-0799E5E7CE94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF1EFC9D-A315-4779-BE65-3E8102BE9D35} = {111F16B9-E0E4-4F25-BD11-07AE0353C39A}
 	EndGlobalSection
 EndGlobal
