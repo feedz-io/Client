@@ -172,8 +172,13 @@ namespace Feedz.Client.Plumbing
             await ProcessResponse(path, response);
         }
 
-        private static Task ProcessResponse(string path, HttpResponseMessage response)
-            => ProcessResponse<object>(path, response, false);
+        private static async Task ProcessResponse(string path, HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                return;
+            
+            await ProcessResponse<object>(path, response, false);
+        }
 
         private static async Task<T> ProcessResponse<T>(string path, HttpResponseMessage response, bool readResponse = true)
         {
@@ -202,6 +207,9 @@ namespace Feedz.Client.Plumbing
                     }
                 }
             }
+            
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                throw new FeedzHttpRequestException(response.StatusCode, $"Request to {path} returned a 201 but expected a response body");
 
             var contentType = response.Content.Headers.ContentType?.MediaType;
             switch (contentType)
