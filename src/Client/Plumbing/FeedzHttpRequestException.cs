@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 
 namespace Feedz.Client.Plumbing
@@ -8,7 +9,7 @@ namespace Feedz.Client.Plumbing
         public HttpStatusCode Code { get; }
 
         public FeedzHttpRequestException(HttpStatusCode code, string message)
-            : base(message)
+            : base($"Server responded with {code}" + Environment.NewLine + message)
         {
             Code = code;
         }

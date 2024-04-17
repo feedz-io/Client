@@ -27,33 +27,36 @@ namespace Feedz.Client
 
         public Task<IReadOnlyList<PackageResource>> List(Guid[] ids = null, string[] packageIds = null)
             => _client.ApiClientWrapper.List<PackageResource>(
-                UrlTemplate.Resolve(_rootUri + "{?packageIds,ids}", new {ids, packageIds})
+                UrlTemplate.Resolve(_rootUri + "{?packageIds,ids}", new { ids, packageIds })
             );
-        
+
         public Task<PackageResource> GetLatest(string packageId)
             => _client.ApiClientWrapper.Get<PackageResource>(
-                UrlTemplate.Resolve(_rootUri + "/{packageId}", new {packageId})
+                UrlTemplate.Resolve(_rootUri + "/{packageId}", new { packageId })
             );
-        
+
         public Task<PackageResource> Get(string packageId, string version)
             => _client.ApiClientWrapper.Get<PackageResource>(
-                UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}", new {packageId, version})
+                UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}", new { packageId, version })
             );
-        
+
         public Task Remove(PackageHeaderResource package)
             => _client.ApiClientWrapper.Remove(
-                UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}", new {package.Id, package.Version})
+                UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}", new { package.PackageId, package.Version })
             );
-        
+
         public Task Remove(IReadOnlyList<PackageHeaderResource> packages)
-            => _client.ApiClientWrapper.Update(
+            => _client.ApiClientWrapper.Create(
                 _rootUri + "/remove",
-                packages.Select(p => new
+                new
                 {
-                    p.PackageId,
-                    p.Version
-                })
-                .ToArray()
+                    Packages = packages.Select(p => new
+                    {
+                        p.PackageId,
+                        p.Version
+                    })
+                    .ToArray()
+                }
             );
     }
 }

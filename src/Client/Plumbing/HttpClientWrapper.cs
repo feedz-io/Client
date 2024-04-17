@@ -22,7 +22,7 @@ namespace Feedz.Client.Plumbing
         Task<T> Create<T>(string path, IResource resource = null);
         Task Create(string path, object request = null);
         Task<T> Update<T>(string path, IResource resource);
-        Task Update(string path, object resource);
+        Task Update(string path, object request);
         Task Remove(string path);
         Uri BaseAddress { get; }
         TimeSpan Timeout { get; set; }
@@ -157,9 +157,9 @@ namespace Feedz.Client.Plumbing
             return body;
         }
         
-        public async Task Update(string path, object resource)
+        public async Task Update(string path, object request)
         {
-            var json = JsonConvert.SerializeObject(resource, JsonSerializerSettings);
+            var json = JsonConvert.SerializeObject(request, JsonSerializerSettings);
             var content = new StringContent(json, Encoding.UTF8);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await Client.PutAsync(path, content);
@@ -172,8 +172,13 @@ namespace Feedz.Client.Plumbing
             await ProcessResponse(path, response);
         }
 
-        private static Task ProcessResponse(string path, HttpResponseMessage response)
-            => ProcessResponse<object>(path, response, false);
+        private static async Task ProcessResponse(string path, HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                return;
+            
+            await ProcessResponse<object>(path, response, false);
+        }
 
         private static async Task<T> ProcessResponse<T>(string path, HttpResponseMessage response, bool readResponse = true)
         {
@@ -202,6 +207,9 @@ namespace Feedz.Client.Plumbing
                     }
                 }
             }
+            
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                throw new FeedzHttpRequestException(response.StatusCode, $"Request to {path} returned a 201 but expected a response body");
 
             var contentType = response.Content.Headers.ContentType?.MediaType;
             switch (contentType)
