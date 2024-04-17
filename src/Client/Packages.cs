@@ -42,8 +42,7 @@ namespace Feedz.Client
 
         public Task Remove(PackageHeaderResource package)
             => _client.ApiClientWrapper.Remove(
-                UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}",
-                    new { packageId = package.Id, package.Version })
+                UrlTemplate.Resolve(_rootUri + "/{packageId}/{version}", new { package.PackageId, package.Version })
             );
 
         public Task Remove(IReadOnlyList<PackageHeaderResource> packages)
