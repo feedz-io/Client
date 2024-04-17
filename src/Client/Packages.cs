@@ -48,12 +48,15 @@ namespace Feedz.Client
         public Task Remove(IReadOnlyList<PackageHeaderResource> packages)
             => _client.ApiClientWrapper.Create(
                 _rootUri + "/remove",
-                packages.Select(p => new
+                new
+                {
+                    Packages = packages.Select(p => new
                     {
                         p.PackageId,
                         p.Version
                     })
                     .ToArray()
+                }
             );
     }
 }
