@@ -42,8 +42,8 @@ namespace Feedz.Client
         
         public TimeSpan ApiTimeout
         {
-            get => FeedClientWrapper.Timeout;
-            set => FeedClientWrapper.Timeout = value;
+            get => ApiClientWrapper.Timeout;
+            set => ApiClientWrapper.Timeout = value;
         }
 
         public OrganisationScope ScopeToOrganisation(OrganisationResource organisation)
