@@ -27,23 +27,28 @@ namespace Feedz.Client
 
         public Uri FeedUri => new Uri(_client.FeedClientWrapper.BaseAddress, _feedRootUri);
 
-        public async Task<FeedPackageResult> Upload(string filePath, bool replace = false, string region = null)
+        public async Task<FeedPackageResult> Upload(string filePath, bool replace = false, bool useDeltaCompression = true)
         {
             using (var stream = File.OpenRead(filePath))
-                return await Upload(stream, Path.GetFileName(filePath), replace, region);
+                return await Upload(stream, Path.GetFileName(filePath), replace, useDeltaCompression);
         }
 
-        public async Task<FeedPackageResult> Upload(Stream stream, string originalFilename, bool replace = false, string region = null)
+        public async Task<FeedPackageResult> Upload(Stream stream, string originalFilename, bool replace = false, bool useDeltaCompression = true)
         {
             var sw = Stopwatch.StartNew();
 
-            var result = await AttemptDeltaPush(stream, originalFilename, replace, region);
+            FeedPackageResult result = null;
+            if (useDeltaCompression)
+            {
+                result = await AttemptDeltaPush(stream, originalFilename, replace);
+            }
+
             if (result == null)
             {
-                _client.Log.Info("Falling back to pushing the full package");
+                _client.Log.Info(useDeltaCompression ? "Falling back to pushing the full package" : "Pushing package");
                 stream.Seek(0, SeekOrigin.Begin);
                 result = await _client.FeedClientWrapper.Create<FeedPackageResult>(
-                    UrlTemplate.Resolve(_feedRootUri + "{?replace,region}", new {replace, region}),
+                    UrlTemplate.Resolve(_feedRootUri + "{?replace}", new {replace}),
                     stream,
                     originalFilename,
                     new Dictionary<string, string>()
@@ -54,7 +59,7 @@ namespace Feedz.Client
             return result;
         }
 
-        private async Task<FeedPackageResult> AttemptDeltaPush(Stream stream, string originalFilename, bool replace, string region)
+        private async Task<FeedPackageResult> AttemptDeltaPush(Stream stream, string originalFilename, bool replace)
         {
             var (packageId, version) = PackageIdAndVersionParser.Parse(Path.GetFileNameWithoutExtension(originalFilename));
 
@@ -80,8 +85,8 @@ namespace Feedz.Client
                     {
                         var result = await _client.FeedClientWrapper.Create<FeedPackageResult>(
                             UrlTemplate.Resolve(
-                                _feedRootUri + "/packages/{packageId}/{baseVersion}/delta{?replace,region}",
-                                new {packageId, baseVersion = signature.BaseVersion, replace, region}
+                                _feedRootUri + "/packages/{packageId}/{baseVersion}/delta{?replace}",
+                                new {packageId, baseVersion = signature.BaseVersion, replace}
                             ),
                             delta,
                             originalFilename,
