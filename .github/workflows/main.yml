@@ -1,5 +1,8 @@
 name: CI
 
+# This workflow builds and tests the code
+# For publishing to NuGet, create and publish a GitHub release
+
 on:
   push:
   pull_request:
@@ -52,14 +55,9 @@ jobs:
         run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GITVERSION_SEMVER
         working-directory: src
 
-      - name: Push NuGet packages to Feeds ⬆️
+      - name: Push NuGet packages to Feedz ⬆️
         working-directory: artifacts
         run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.FEEDZ_APIKEY }} -s https://f.feedz.io/feedz-io/public/nuget/index.json
-
-      - name: Push NuGet packages to NuGet ⬆️
-        if: ${{ steps.gitversion.outputs.preReleaseLabel == '' }}
-        working-directory: artifacts
-        run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
 
       - name: Test Report 🧪
         uses: dorny/test-reporter@v1
@@ -68,3 +66,10 @@ jobs:
           name: Tests
           path: artifacts/*.trx
           reporter: dotnet-trx
+
+      - name: Create GitHub Release
+        if: ${{ github.ref == 'refs/heads/master' && format('{0}', env.GITHUB_TOKEN) != '' }}
+        working-directory: artifacts
+        run: gh release create --draft ${{ steps.gitversion.outputs.preReleaseLabel != '' && '--prerelease' || '' }} --target ${{ github.ref_name }} --title $GITVERSION_SEMVER $GITVERSION_SEMVER Feedz.Client.$GITVERSION_SEMVER.nupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
