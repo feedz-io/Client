@@ -68,7 +68,7 @@ jobs:
           reporter: dotnet-trx
 
       - name: Create GitHub Release
-        if: ${{ github.ref == 'refs/heads/master' && format('{0}', env.GITHUB_TOKEN) != '' }}
+        if: ${{ github.ref == 'refs/heads/main' && format('{0}', env.GITHUB_TOKEN) != '' }}
         working-directory: artifacts
         run: gh release create --draft ${{ steps.gitversion.outputs.preReleaseLabel != '' && '--prerelease' || '' }} --target ${{ github.ref_name }} --title $GITVERSION_SEMVER $GITVERSION_SEMVER Feedz.Client.$GITVERSION_SEMVER.nupkg
         env:
