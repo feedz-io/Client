@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build)",
+      "Bash(dotnet build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "mcp__MSSQLFeedz__ListTables",
+      "Bash(dir /s \"C:\\Source\\Feedz\\Client\\src\")",
+      "mcp__MSSQLFeedz__DescribeTable",
+      "Bash(findstr:*)",
+      "Read(//c/Source/Feedz/Website/src/Web/**)",
+      "Read(//c/Source/Feedz/Website/src/**)",
+      "Read(//c/Source/Feedz/**)",
+      "Bash(cat:*)",
+      "Read(//c/Source/DbUp/DbUp/**)",
+      "Bash(dir \"..\\DbUp\\DbUp\\.github\\workflows\")",
+      "Bash(dir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "outputStyle": "default"
+}
