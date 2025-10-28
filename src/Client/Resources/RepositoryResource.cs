@@ -12,10 +12,11 @@ namespace Feedz.Client.Resources
         public string Slug { get; set; }
 
         public bool IsPublic { get; set; }
-        
+
         public int? KeepForAtLeastDays { get; set; }
         public int? KeepNPrerelease  { get; set; }
         public int? KeepNRelease { get; set; }
+        public int? DeletedPackageRetentionDays { get; set; }
     }
 
     public class RepositoryResource : RepositoryCreateResource

@@ -22,6 +22,6 @@ namespace Feedz.Client.Resources
         public DateTimeOffset BillingCycleAnchor { get; set; }
         public DateTimeOffset EndOfPeriod { get; set; }
         public bool RestrictToGoogleAuthentication { get; set; }
-        public string RestrictedToDomain { get; set; }
+        public string? RestrictedToDomain { get; set; }
     }
 }

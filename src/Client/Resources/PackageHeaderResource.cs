@@ -9,9 +9,9 @@ namespace Feedz.Client.Resources
         public string PackageId { get; set; }
         public string Version { get; set; }
         public bool IsPrerelease { get; set; }
-        public string Tags { get; set; }
-        public string Description { get; set; }
-        public string IconUrl { get; set; }
+        public string? Tags { get; set; }
+        public string? Description { get; set; }
+        public string? IconUrl { get; set; }
         public bool Listed { get; set; }
         public bool Pinned { get; set; }
         public long PackageSize { get; set; }

@@ -7,12 +7,13 @@ namespace Feedz.Client.Resources
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public Guid OrganisationId { get; set; }
         public bool IsBuiltIn { get; set; }
 
         public bool ViewTeamsMembersAndServiceAccounts { get; set; }
         public bool ManageTeamsMembersAndServiceAccounts { get; set; }
+        public bool ManageOrganisation { get; set; }
         public bool ManageSubscription { get; set; }
         public bool ViewEvents { get; set; }
         public bool AddRepositories { get; set; }

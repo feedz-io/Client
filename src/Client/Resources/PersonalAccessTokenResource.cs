@@ -11,7 +11,7 @@ namespace Feedz.Client.Resources
         public Guid Id { get; set; }
         public Guid? UserId { get; set; }
         public Guid? ServiceAccountId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string AccountName { get; set; }
         public string FriendlyId { get; set; }
         public string AccessLevel { get; set; }
@@ -25,7 +25,7 @@ namespace Feedz.Client.Resources
     {
         public Guid? UserId { get; set; }
         public Guid? ServiceAccountId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string AccessLevel { get; set; } = PersonalAccessTokenResource.AccessLevelEverything;
         public DateTimeOffset? Expires { get; set; }
     }
