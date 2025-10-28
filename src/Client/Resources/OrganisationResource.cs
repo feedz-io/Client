@@ -5,10 +5,8 @@ namespace Feedz.Client.Resources
 {
     public class OrganisationCreateResource : IResource
     {
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Slug { get; set; }
     }
 

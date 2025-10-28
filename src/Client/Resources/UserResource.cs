@@ -6,13 +6,10 @@ namespace Feedz.Client.Resources
 {
     public class UserCreateResource : IResource
     {
-        [Required]
         public string FirstName { get; init; }
 
-        [Required]
         public string LastName { get; set; }
 
-        [Required]
         public string Email { get; set; }
 
         public bool AcceptTermsOfService { get; set; }

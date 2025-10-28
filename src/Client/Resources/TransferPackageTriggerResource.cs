@@ -6,7 +6,6 @@ namespace Feedz.Client.Resources
     public class TransferPackageTriggerResource : IResource
     {
         public Guid Id { get; set; }
-        [Required]
         public string Package { get; set; }
         public string VersionRange { get; set; }
         public string PrereleaseTag { get; set; }

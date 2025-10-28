@@ -5,10 +5,8 @@ namespace Feedz.Client.Resources
 {
     public class RepositoryCreateResource: IResource
     {
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Slug { get; set; }
 
         public bool IsPublic { get; set; }
