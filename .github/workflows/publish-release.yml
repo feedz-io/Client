@@ -24,7 +24,7 @@ jobs:
           repository: ${{ github.repository }}
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: "${{ github.event.release.tag_name }}"
-          fileName: "*.nupkg"
+          fileName: "*"
           tarBall: false
           zipBall: false
 
