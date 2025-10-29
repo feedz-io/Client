@@ -4,17 +4,17 @@ namespace Feedz.Client.Resources
 {
     public class PackageTransferEventResource : IResource
     {
-        public Guid Id { get; set; }
-        public string OrganisationSlug { get; set; }
-        public string OrganisationName { get; set; }
-        public string RepositorySlug { get; set; }
-        public string RepositoryName { get; set; }
-        public string Package { get; set; }
-        public string AccountName { get; set; }
-        public long Bytes { get; set; }
+        public required Guid Id { get; set; }
+        public required string OrganisationSlug { get; set; }
+        public required string OrganisationName { get; set; }
+        public required string RepositorySlug { get; set; }
+        public required string RepositoryName { get; set; }
+        public required string Package { get; set; }
+        public required string AccountName { get; set; }
+        public required long Bytes { get; set; }
         public long? DeltaBytes { get; set; }
-        public DateTimeOffset StartedAt { get; set; }
-        public bool Successful { get; set; }
-        public string Direction { get; set; }
+        public required DateTimeOffset StartedAt { get; set; }
+        public required bool Successful { get; set; }
+        public required string Direction { get; set; }
     }
 }

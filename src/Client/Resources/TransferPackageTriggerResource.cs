@@ -5,12 +5,12 @@ namespace Feedz.Client.Resources
 {
     public class TransferPackageTriggerResource : IResource
     {
-        public Guid Id { get; set; }
-        public string Package { get; set; }
-        public string VersionRange { get; set; }
-        public string PrereleaseTag { get; set; }
+        public required Guid Id { get; set; }
+        public required string Package { get; set; }
+        public required string VersionRange { get; set; }
+        public required string PrereleaseTag { get; set; }
 
-        public string[] Roles { get; set; }
-        public bool Enabled { get; set; }
+        public required string[] Roles { get; set; }
+        public required bool Enabled { get; set; }
     }
 }

@@ -8,17 +8,17 @@ namespace Feedz.Client.Resources
         public const string AccessLevelWriteFeed = "WriteFeed";
         public const string AccessLevelEverything = "Everything";
 
-        public Guid Id { get; set; }
+        public required Guid Id { get; set; }
         public Guid? UserId { get; set; }
         public Guid? ServiceAccountId { get; set; }
         public string? Name { get; set; }
-        public string AccountName { get; set; }
-        public string FriendlyId { get; set; }
-        public string AccessLevel { get; set; }
+        public required string AccountName { get; set; }
+        public required string FriendlyId { get; set; }
+        public required string AccessLevel { get; set; }
         public DateTimeOffset? Expires { get; set; }
-        public bool IsActive { get; set; }
+        public required bool IsActive { get; set; }
         public DateTimeOffset? LastUsed { get; set; }
-        public DateTimeOffset Created { get; set; }
+        public required DateTimeOffset Created { get; set; }
     }
 
     public class CreatePersonalAccessTokenRequest : IResource
@@ -26,13 +26,13 @@ namespace Feedz.Client.Resources
         public Guid? UserId { get; set; }
         public Guid? ServiceAccountId { get; set; }
         public string? Name { get; set; }
-        public string AccessLevel { get; set; } = PersonalAccessTokenResource.AccessLevelEverything;
+        public required string AccessLevel { get; set; } = PersonalAccessTokenResource.AccessLevelEverything;
         public DateTimeOffset? Expires { get; set; }
     }
 
     public class CreatePersonalAccessTokenResponse : PersonalAccessTokenResource
     {
-        public string Token { get; set; }
+        public required string Token { get; set; }
     }
 
 }

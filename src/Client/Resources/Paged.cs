@@ -4,7 +4,7 @@ namespace Feedz.Client.Resources
 {
     public class Paged<T> where T : IResource
     {
-        public int TotalResults { get; set; }
-        public IReadOnlyList<T> Items { get; set; }
+        public required int TotalResults { get; set; }
+        public required IReadOnlyList<T> Items { get; set; }
     }
 }
