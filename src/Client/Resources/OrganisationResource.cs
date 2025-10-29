@@ -16,6 +16,7 @@ namespace Feedz.Client.Resources
     {
         public Guid Id { get; set; }
         public string PlanId { get; set; }
+        public string PlanBillingInterval { get; set; }
         public int PlanStorageGigabytes { get; set; }
         public int PlanTransferGigabytes { get; set; }
         public DateTimeOffset BillingCycleAnchor { get; set; }
