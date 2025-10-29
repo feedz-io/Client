@@ -7,7 +7,7 @@ namespace Feedz.Client.Resources
         public Guid Id { get; set; }
         public string PackageId { get; set; }
         public string Version { get; set; }
-        public int DownloadCount { get; set; }
+        public int VersionDownloadCount { get; set; }
         public bool Listed { get; set; }
         public bool Pinned { get; set; }
         public long PackageSize { get; set; }
