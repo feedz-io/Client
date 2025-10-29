@@ -2,6 +2,6 @@
 {
     public class InviteProcessResponse
     {
-        public string OrganisationSlug { get; set; }
+        public required string OrganisationSlug { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace Feedz.Client.Resources
 {
     public class MemberInviteRequest
     {
-        public string Addresses { get; set; }
-        public Guid[] TeamIds { get; set; }
+        public required string Addresses { get; set; }
+        public required Guid[] TeamIds { get; set; }
     }
 }

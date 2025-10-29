@@ -25,7 +25,7 @@ namespace Feedz.Client
             _rootUri = $"{scope.RootUri}/packages";
         }
 
-        public Task<IReadOnlyList<PackageResource>> List(Guid[] ids = null, string[] packageIds = null)
+        public Task<IReadOnlyList<PackageResource>> List(Guid[]? ids = null, string[]? packageIds = null)
             => _client.ApiClientWrapper.List<PackageResource>(
                 UrlTemplate.Resolve(_rootUri + "{?packageIds,ids}", new { ids, packageIds })
             );

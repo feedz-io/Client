@@ -4,6 +4,6 @@ namespace Feedz.Client.Resources
 {
     public class ServerTaskQueueRequest<T> : IResource
     {
-        public T Arguments { get; set; }
+        public required T Arguments { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class OctopusCreateFeedResponse
     {
-        public bool Created { get; set; }
-        public string FeedName { get; set; }
+        public required bool Created { get; set; }
+        public required string FeedName { get; set; }
     }
 }

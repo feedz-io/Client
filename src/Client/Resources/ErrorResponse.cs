@@ -4,14 +4,14 @@ namespace Feedz.Client.Resources
 {
     public class ErrorResponse
     {
-       
-        public ErrorResponse(string message, IReadOnlyList<string> extraInformation = null)
+
+        public ErrorResponse(string message, IReadOnlyList<string>? extraInformation = null)
         {
             Message = message;
             ExtraInformation = extraInformation;
         }
-        
-        public string Message { get; }
-        public IReadOnlyList<string> ExtraInformation { get; }
+
+        public required string Message { get; init; }
+        public IReadOnlyList<string>? ExtraInformation { get; init; }
     }
 }

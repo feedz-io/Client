@@ -6,27 +6,24 @@ namespace Feedz.Client.Resources
 {
     public class UserCreateResource : IResource
     {
-        [Required]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
-        [Required]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
-        [Required]
-        public string Email { get; set; }
-        
-        public bool AcceptTermsOfService { get; set; }
-        public bool SubscribeToUpdateNotifications { get; set; }
+        public string? Email { get; set; }
+
+        public required bool AcceptTermsOfService { get; set; }
+        public required bool SubscribeToUpdateNotifications { get; set; }
     }
 
     public class UserResource : UserCreateResource
     {
-        public Guid Id { get; set; }
+        public required Guid Id { get; set; }
 
-        public bool EmailVerified { get; set; }
+        public required bool EmailVerified { get; set; }
 
-        public string AuthProviderPictureUri { get; set; }
+        public string? AuthProviderPictureUri { get; set; }
 
-        public string PictureSource { get; set; }
+        public string? PictureSource { get; set; }
     }
 }
