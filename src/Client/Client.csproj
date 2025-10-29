@@ -3,6 +3,7 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>Feedz.Client</RootNamespace>
     <AssemblyName>Feedz.Client</AssemblyName>
+    <LangVersion>latest</LangVersion>
     <PackageId>Feedz.Client</PackageId>
     <Authors>Feedz.io</Authors>
     <Copyright>Tesseract Labs Pty Ltd</Copyright>
