@@ -23,7 +23,7 @@ namespace Feedz.Client.Tests.Plumbing.Converters
         private static PackageResource Execute(PackageResource orig)
         {
             var json = JsonConvert.SerializeObject(orig, HttpClientWrapper.JsonSerializerSettings);
-            return JsonConvert.DeserializeObject<PackageResource>(json, HttpClientWrapper.JsonSerializerSettings);
+            return JsonConvert.DeserializeObject<PackageResource>(json, HttpClientWrapper.JsonSerializerSettings)!;
         }
     }
 }
