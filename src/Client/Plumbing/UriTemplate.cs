@@ -326,51 +326,45 @@ namespace Feedz.Client.Plumbing
 
             var value = parameters[varname];
 
-            // Handle Strings
-            if (value is string)
+            switch (value)
             {
-                var stringValue = (string)value;
-                if (varSpec.OperatorInfo.Named)
-                {
-                    AppendName(varname, varSpec.OperatorInfo, string.IsNullOrEmpty(stringValue));
-                }
-                AppendValue(stringValue, varSpec.PrefixLength, varSpec.OperatorInfo.AllowReserved);
-            }
-            else
-            {
-                // Handle Lists
-                var list = value as IEnumerable<string>;
-                if (list != null)
-                {
+                case string s:
+                    if (varSpec.OperatorInfo.Named)
+                    {
+                        AppendName(varname, varSpec.OperatorInfo, string.IsNullOrEmpty(s));
+                    }
+                    AppendValue(s, varSpec.PrefixLength, varSpec.OperatorInfo.AllowReserved);
+                    break;
+                case IEnumerable<string> list:
                     if (varSpec.OperatorInfo.Named && !varSpec.Explode) // exploding will prefix with list name
                     {
                         AppendName(varname, varSpec.OperatorInfo, list.Count() == 0);
                     }
 
                     AppendList(varSpec.OperatorInfo, varSpec.Explode, varname, list);
-                }
-                else
-                {
-                    // Handle associative arrays
-                    var dictionary = value as IDictionary<string, string>;
-                    if (dictionary != null)
+                    break;
+                case IDictionary<string, string> dictionary:
+                    if (varSpec.OperatorInfo.Named && !varSpec.Explode) // exploding will prefix with list name
                     {
-                        if (varSpec.OperatorInfo.Named && !varSpec.Explode) // exploding will prefix with list name
-                        {
-                            AppendName(varname, varSpec.OperatorInfo, dictionary.Count() == 0);
-                        }
-                        AppendDictionary(varSpec.OperatorInfo, varSpec.Explode, dictionary);
+                        AppendName(varname, varSpec.OperatorInfo, dictionary.Count() == 0);
                     }
-                    else
+                    AppendDictionary(varSpec.OperatorInfo, varSpec.Explode, dictionary);
+                    break;
+                case DateTimeOffset dateTimeOffset:
+                    if (varSpec.OperatorInfo.Named)
                     {
-                        var stringValue = value == null ? "" : value.ToString();
-                        if (varSpec.OperatorInfo.Named)
-                        {
-                            AppendName(varname, varSpec.OperatorInfo, string.IsNullOrEmpty(stringValue));
-                        }
-                        AppendValue(stringValue, varSpec.PrefixLength, varSpec.OperatorInfo.AllowReserved);
+                        AppendName(varname, varSpec.OperatorInfo, false);
                     }
-                }
+                    AppendValue(dateTimeOffset.ToString("O"), varSpec.PrefixLength, varSpec.OperatorInfo.AllowReserved);
+                    break;
+                default:
+                    var stringValue = value == null ? "" : value.ToString();
+                    if (varSpec.OperatorInfo.Named)
+                    {
+                        AppendName(varname, varSpec.OperatorInfo, string.IsNullOrEmpty(stringValue));
+                    }
+                    AppendValue(stringValue, varSpec.PrefixLength, varSpec.OperatorInfo.AllowReserved);
+                    break;
             }
             return true;
         }
