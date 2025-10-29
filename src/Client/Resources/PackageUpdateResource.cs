@@ -2,7 +2,7 @@
 {
     public class PackageUpdateResource : IResource
     {
-        public required bool Listed { get; set; }
-        public required bool Pinned { get; set; }
+        public bool Listed { get; set; }
+        public bool Pinned { get; set; }
     }
 }

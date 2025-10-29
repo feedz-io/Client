@@ -2,6 +2,6 @@
 {
     public class InviteProcessRequest : IResource
     {
-        public required string Code { get; set; }
+        public string Code { get; set; }
     }
 }

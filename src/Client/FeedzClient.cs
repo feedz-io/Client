@@ -61,20 +61,20 @@ namespace Feedz.Client
         public static FeedzClient CreateAnonymous()
             => Create(null);
         
-        public static FeedzClient Create(string? pat)
+        public static FeedzClient Create(string pat)
             => Create(pat, "https://feedz.io", "https://f.feedz.io");
 
-        public static FeedzClient Create(string? pat, string apiUri, string feedUri)
+        public static FeedzClient Create(string pat, string apiUri, string feedUri)
             => Create(pat, new Uri(apiUri), new Uri(feedUri));
 
-        public static FeedzClient Create(string? pat, Uri apiUri, Uri feedUri)
+        public static FeedzClient Create(string pat, Uri apiUri, Uri feedUri)
         {
             var apiClientWrapper = new HttpClientWrapper(new Uri(apiUri, "api/"), pat);
             var feedClientWrapper = new FeedClientWrapper(feedUri, pat);
             return new FeedzClient(apiClientWrapper, feedClientWrapper);
         }
 
-        public static FeedzClient Create(string? pat, HttpClient apiClient, HttpClient feedClient)
+        public static FeedzClient Create(string pat, HttpClient apiClient, HttpClient feedClient)
         {
             var apiClientWrapper = new HttpClientWrapper(apiClient, pat);
             var feedClientWrapper = new FeedClientWrapper(feedClient, pat);

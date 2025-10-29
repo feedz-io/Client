@@ -4,9 +4,9 @@ namespace Feedz.Client.Resources
 {
     public class NotificationResource
     {
-        public required string PartitionKey { get; set; }
-        public required string RowKey { get; set; }
-        public required string Type { get; set; }
-        public required JObject Data { get; set; }
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public string Type { get; set; }
+        public JObject Data { get; set; }
     }
 }

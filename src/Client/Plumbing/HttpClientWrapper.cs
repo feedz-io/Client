@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -20,8 +19,8 @@ namespace Feedz.Client.Plumbing
         Task<IReadOnlyList<T>> List<T>(string path);
         Task<T> Get<T>(string path);
         Task<T> Create<T>(string path, Stream stream, string originalFilename, Dictionary<string, string> formValues);
-        Task<T> Create<T>(string path, IResource? resource = null);
-        Task Create(string path, object? request = null);
+        Task<T> Create<T>(string path, IResource resource = null);
+        Task Create(string path, object request = null);
         Task<T> Update<T>(string path, IResource resource);
         Task Update(string path, object request);
         Task Remove(string path);
@@ -33,15 +32,16 @@ namespace Feedz.Client.Plumbing
     {
         const string ApiKeyHeader = "Feedz-Api-Key";
 
-        public FeedClientWrapper(Uri baseAddress, string? pat)
+        public FeedClientWrapper(Uri baseAddress, string pat)
             : this(new HttpClient() {BaseAddress = baseAddress}, pat)
         {
             OwnsClient = true;
         }
 
-        public FeedClientWrapper(HttpClient client, string? pat)
-            : base(client)
+        public FeedClientWrapper(HttpClient client, string pat)
+            : base()
         {
+            Client = client;
             Client.DefaultRequestHeaders.Add(ApiKeyHeader, pat);
         }
     }
@@ -60,22 +60,22 @@ namespace Feedz.Client.Plumbing
         protected bool OwnsClient { get; set; }
         protected HttpClient Client { get; set; }
 
-        protected HttpClientWrapper(HttpClient client)
+        protected HttpClientWrapper()
         {
-            Client = client;
         }
 
-        public HttpClientWrapper(Uri baseAddress, string? pat)
+        public HttpClientWrapper(Uri baseAddress, string pat)
             : this(new HttpClient() {BaseAddress = baseAddress}, pat)
         {
             OwnsClient = true;
         }
 
-        public HttpClientWrapper(HttpClient client, string? pat)
-            : this(client)
+        public HttpClientWrapper(HttpClient client, string pat)
         {
             if(pat != null)
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("PAT", pat);
+            
+            Client = client;
         }
 
         public Uri BaseAddress => Client.BaseAddress;
@@ -93,7 +93,7 @@ namespace Feedz.Client.Plumbing
         {
             var response = await Client.GetAsync(path);
             var body = await ProcessResponse<T>(path, response);
-            return body!;
+            return body;
         }
 
         public async Task<T> Create<T>(string path, Stream stream, string originalFilename, Dictionary<string, string> formValues)
@@ -112,13 +112,13 @@ namespace Feedz.Client.Plumbing
                 var response = await Client.PostAsync(path, content);
                 var body = await ProcessResponse<T>(path, response);
 
-                return body!;
+                return body;
             }
         }
 
-        public async Task<T> Create<T>(string path, IResource? resource = null)
+        public async Task<T> Create<T>(string path, IResource resource = null)
         {
-            StringContent? content = null;
+            StringContent content = null;
             if (resource != null)
             {
                 var json = JsonConvert.SerializeObject(resource);
@@ -129,12 +129,12 @@ namespace Feedz.Client.Plumbing
             var response = await Client.PostAsync(path, content);
             var body = await ProcessResponse<T>(path, response);
 
-            return body!;
+            return body;
         }
 
-        public async Task Create(string path, object? request = null)
+        public async Task Create(string path, object request = null)
         {
-            StringContent? content = null;
+            StringContent content = null;
             if (request != null)
             {
                 var json = JsonConvert.SerializeObject(request, JsonSerializerSettings);
@@ -154,7 +154,7 @@ namespace Feedz.Client.Plumbing
             var response = await Client.PutAsync(path, content);
             var body = await ProcessResponse<T>(path, response);
 
-            return body!;
+            return body;
         }
         
         public async Task Update(string path, object request)
@@ -180,7 +180,7 @@ namespace Feedz.Client.Plumbing
             await ProcessResponse<object>(path, response, false);
         }
 
-        private static async Task<T?> ProcessResponse<T>(string path, HttpResponseMessage response, bool readResponse = true)
+        private static async Task<T> ProcessResponse<T>(string path, HttpResponseMessage response, bool readResponse = true)
         {
             void CheckSuccess(string content)
             {
@@ -199,7 +199,7 @@ namespace Feedz.Client.Plumbing
                             throw new FeedzHttpRequestException(response.StatusCode, "Server Error");
 
                         var error = JsonConvert.DeserializeObject<ErrorResponse>(content, JsonSerializerSettings);
-                        throw new FeedzHttpRequestException(response.StatusCode, error?.Message ?? "Unknown error");
+                        throw new FeedzHttpRequestException(response.StatusCode, error.Message);
                     }
                     catch (JsonException)
                     {

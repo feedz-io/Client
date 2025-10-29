@@ -5,31 +5,30 @@ namespace Feedz.Client.Resources
 {
     public class TeamResource : IResource
     {
-        public required Guid Id { get; set; }
-        public required string Name { get; set; }
-        public string? Description { get; set; }
-        public required Guid OrganisationId { get; set; }
-        public required bool IsBuiltIn { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Guid OrganisationId { get; set; }
+        public bool IsBuiltIn { get; set; }
 
-        public required bool ViewTeamsMembersAndServiceAccounts { get; set; }
-        public required bool ManageTeamsMembersAndServiceAccounts { get; set; }
-        public required bool ManageOrganisation { get; set; }
-        public required bool ManageSubscription { get; set; }
-        public required bool ViewEvents { get; set; }
-        public required bool AddRepositories { get; set; }
-        public required bool RemoveRepositories { get; set; }
+        public bool ViewTeamsMembersAndServiceAccounts { get; set; }
+        public bool ManageTeamsMembersAndServiceAccounts { get; set; }
+        public bool ManageSubscription { get; set; }
+        public bool ViewEvents { get; set; }
+        public bool AddRepositories { get; set; }
+        public bool RemoveRepositories { get; set; }
 
-        public required bool AllRepositories { get; set; }
-        public required bool ManagePackages { get; set; }
-        public required bool ChangeRepositorySettings { get; set; }
+        public bool AllRepositories { get; set; }
+        public bool ManagePackages { get; set; }
+        public bool ChangeRepositorySettings { get; set; }
 
-        public required List<TeamRepositoryResource> Repositories { get; set; }
+        public List<TeamRepositoryResource> Repositories { get; set; }
     }
 
     public class TeamRepositoryResource
     {
-        public required Guid Id { get; set; }
-        public required string Name { get; set; }
-        public required string Slug { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Slug { get; set; }
     }
 }

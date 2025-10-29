@@ -10,10 +10,10 @@ namespace Feedz.Client.Plumbing.Converters
         public override bool CanConvert(Type objectType)
             => typeof(PackageResource).IsAssignableFrom(objectType);
 
-        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jo = JObject.Load(reader);
-            var type = jo["type"]?.Value<string>();
+            var type = jo["type"].Value<string>();
             switch (type)
             {
                 case "NuGet":
@@ -29,7 +29,7 @@ namespace Feedz.Client.Plumbing.Converters
 
         public override bool CanWrite => false;
 
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

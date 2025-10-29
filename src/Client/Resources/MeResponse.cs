@@ -6,33 +6,33 @@ namespace Feedz.Client.Resources
     public class MeResponse
     {
         public Guid? AccountId { get; set; }
-        public required bool IsAuthenticated { get; set; }
-        public required bool IsUser { get; set; }
-        public required bool IsServiceAccount { get; set; }
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string Email { get; set; }
-        public required string AuthProviderPictureUri { get; set; }
-        public required string PictureSource { get; set; }
-        public required IReadOnlyList<Organisation> Organisations { get; set; }
+        public bool IsAuthenticated { get; set; }
+        public bool IsUser { get; set; }
+        public bool IsServiceAccount { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string AuthProviderPictureUri { get; set; }
+        public string PictureSource { get; set; }
+        public IReadOnlyList<Organisation> Organisations { get; set; }
 
         public class Organisation
         {
-            public required Guid Id { get; set; }
-            public required string Name { get; set; }
-            public required string Slug { get; set; }
-            public required bool IsDefault { get; set; }
-            public required IReadOnlyList<Repository> Repositories { get; set; }
-            public required bool ManageTeamsMembersAndServiceAccounts { get; set; }
-            public required bool ManageSubscription { get; set; }
+            public Guid Id { get; set; }
+            public string Name { get; set; }
+            public string Slug { get; set; }
+            public bool IsDefault { get; set; }
+            public IReadOnlyList<Repository> Repositories { get; set; }
+            public bool ManageTeamsMembersAndServiceAccounts { get; set; }
+            public bool ManageSubscription { get; set; }
         }
 
         public class Repository
         {
-            public required Guid Id { get; set; }
-            public required string Slug { get; set; }
-            public required string Name { get; set; }
-            public required bool CanChangeRepositorySettings { get; set; }
+            public Guid Id { get; set; }
+            public string Slug { get; set; }
+            public string Name { get; set; }
+            public bool CanChangeRepositorySettings { get; set; }
         }
 
     }

@@ -2,7 +2,7 @@
 {
     public class PackageDeltaSignatureResult
     {
-        public required byte[] Signature { get; set; }
-        public required string BaseVersion { get; set; }
+        public byte[] Signature { get; set; }
+        public string BaseVersion { get; set; }
     }
 }

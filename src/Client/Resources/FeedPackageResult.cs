@@ -4,14 +4,14 @@ namespace Feedz.Client.Resources
 {
     public class FeedPackageResult
     {
-        public required Guid Id { get; set; }
-        public required string Type { get; set; }
-        public required string PackageId { get; set; }
-        public required string Version { get; set; }
-        public required bool IsPrerelease { get; set; }
-        public required bool Pinned { get; set; }
-        public required long PackageSize { get; set; }
-        public required string Extension { get; set; }
-        public required DateTimeOffset Created { get; set; }
+        public Guid Id { get; set; }
+        public string Type { get; set; }
+        public string PackageId { get; set; }
+        public string Version { get; set; }
+        public bool IsPrerelease { get; set; }
+        public bool Pinned { get; set; }
+        public long PackageSize { get; set; }
+        public string Extension { get; set; }
+        public DateTimeOffset Created { get; set; }
     }
 }

@@ -4,20 +4,20 @@ namespace Feedz.Client.Resources
 {
     public class OrganisationStatisticsResponse
     {
-        public required Guid Id { get; set; }
-        public required int NumberOfPackages { get; set; }
-        public required long TotalPackageBytes { get; set; }
-        public required long QuotaUsedBytes { get; set; }
-        public required Transfer TransferredThisPeriod { get; set; }
-        public required Transfer TransferredPreviousPeriod { get; set; }
-        public required RepositoryStatisticsResponse[] Repositories { get; set; }
+        public Guid Id { get; set; }
+        public int NumberOfPackages { get; set; }
+        public long TotalPackageBytes { get; set; }
+        public long QuotaUsedBytes { get; set; }
+        public Transfer TransferredThisPeriod { get; set; }
+        public Transfer TransferredPreviousPeriod { get; set; }
+        public RepositoryStatisticsResponse[] Repositories { get; set; }
 
         public class Transfer
         {
-            public required int Uploads { get; set; }
-            public required long UploadBytes { get; set; }
-            public required int Downloads { get; set; }
-            public required long DownloadBytes { get; set; }
+            public int Uploads { get; set; }
+            public long UploadBytes { get; set; }
+            public int Downloads { get; set; }
+            public long DownloadBytes { get; set; }
         }
     }
 }

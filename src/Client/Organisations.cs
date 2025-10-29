@@ -21,7 +21,7 @@ namespace Feedz.Client
         public Task<OrganisationResource> Create(OrganisationCreateResource resource)
             => ApiClientWrapper.Create<OrganisationResource>(RootUri, resource);
         
-        public Task<OrganisationResource> Update(OrganisationResource resource, string? currentSlug = null)
+        public Task<OrganisationResource> Update(OrganisationResource resource, string currentSlug = null)
             => ApiClientWrapper.Update<OrganisationResource>($"{RootUri}/{currentSlug ?? resource.Slug}", resource);
 
         public Task Remove(OrganisationResource resource)

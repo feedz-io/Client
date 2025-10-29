@@ -6,20 +6,23 @@ namespace Feedz.Client.Resources
 {
     public class AgentCreateResource : IResource
     {
-        public required string Name { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-        public required string Thumbprint { get; set; }
+        [Required]
+        public string Thumbprint { get; set; }
 
-        public required string DnsName { get; set; }
+        [Required]
+        public string DnsName { get; set; }
 
-        public required int Port { get; set; }
-
-        public required string[] Roles { get; set; }
+        public int Port { get; set; }
+        
+        public string[] Roles { get; set; }
     }
 
     public class AgentResource : AgentCreateResource
     {
-        public required Guid Id { get; set; }
-        public required Guid RepositoryId { get; set; }
+        public Guid Id { get; set; }
+        public Guid RepositoryId { get; set; }
     }
 }

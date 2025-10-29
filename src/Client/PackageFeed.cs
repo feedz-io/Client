@@ -37,7 +37,7 @@ namespace Feedz.Client
         {
             var sw = Stopwatch.StartNew();
 
-            FeedPackageResult? result = null;
+            FeedPackageResult result = null;
             if (useDeltaCompression)
             {
                 result = await AttemptDeltaPush(stream, originalFilename, replace);
@@ -59,7 +59,7 @@ namespace Feedz.Client
             return result;
         }
 
-        private async Task<FeedPackageResult?> AttemptDeltaPush(Stream stream, string originalFilename, bool replace)
+        private async Task<FeedPackageResult> AttemptDeltaPush(Stream stream, string originalFilename, bool replace)
         {
             var (packageId, version) = PackageIdAndVersionParser.Parse(Path.GetFileNameWithoutExtension(originalFilename));
 
@@ -144,13 +144,13 @@ namespace Feedz.Client
                 UrlTemplate.Resolve(_feedRootUri + "/packages/{packageId}", new {packageId})
             );
 
-        public Task<Stream> Download(FeedPackageResult package, string? similarPackagePath = null)
+        public Task<Stream> Download(FeedPackageResult package, string similarPackagePath = null)
             => Download(package.PackageId, package.Version, similarPackagePath);
 
-        public Task<Stream> Download(PackageHeaderResource package, string? similarPackagePath = null)
+        public Task<Stream> Download(PackageHeaderResource package, string similarPackagePath = null)
             => Download(package.PackageId, package.Version, similarPackagePath);
 
-        public async Task<Stream> Download(string packageId, string version, string? similarPackagePath = null)
+        public async Task<Stream> Download(string packageId, string version, string similarPackagePath = null)
         {
             if (similarPackagePath != null)
             {
@@ -184,7 +184,7 @@ namespace Feedz.Client
                             }
                         })
                         .Where(v => v != null)
-                        .OrderByDescending(v => v!.Version)
+                        .OrderByDescending(v => v.Version)
                         .FirstOrDefault();
 
                     if (file == null)
@@ -211,7 +211,7 @@ namespace Feedz.Client
             );
         }
 
-        private async Task<Stream?> AttemptDeltaDownload(string packageId, string version, FileStream basisStream)
+        private async Task<Stream> AttemptDeltaDownload(string packageId, string version, FileStream basisStream)
         {
             try
             {
@@ -231,7 +231,7 @@ namespace Feedz.Client
                     ))
                     {
                         var tempFile = Path.GetTempFileName();
-                        Stream? fs = null;
+                        Stream fs = null;
                         try
                         {
                             var deltaApplier = new DeltaApplier {SkipHashCheck = false};

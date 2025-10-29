@@ -127,8 +127,8 @@ namespace Feedz.Client.Plumbing
         readonly Dictionary<string, object> parameters = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         readonly string template;
         bool errorDetected;
-        List<string>? parameterNames;
-        private StringBuilder result = new();
+        List<string> parameterNames;
+        StringBuilder result;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UrlTemplate" /> class.
@@ -208,7 +208,7 @@ namespace Feedz.Client.Plumbing
 
             var currentState = States.CopyingLiterals;
             result = new StringBuilder();
-            var currentExpression = new StringBuilder();
+            StringBuilder currentExpression = null;
             foreach (var character in template)
             {
                 switch (currentState)
@@ -538,12 +538,12 @@ namespace Feedz.Client.Plumbing
 
         class OperatorInfo
         {
-            public required bool Default { get; set; }
-            public required string First { get; set; }
-            public required char Seperator { get; set; }
-            public required bool Named { get; set; }
-            public required string IfEmpty { get; set; }
-            public required bool AllowReserved { get; set; }
+            public bool Default { get; set; }
+            public string First { get; set; }
+            public char Seperator { get; set; }
+            public bool Named { get; set; }
+            public string IfEmpty { get; set; }
+            public bool AllowReserved { get; set; }
         }
 
         #endregion

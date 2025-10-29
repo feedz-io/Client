@@ -5,13 +5,15 @@ namespace Feedz.Client.Resources.Integrations.Octopus
 {
     public class OctopusCreateReleaseTriggerResource : IResource
     {
-        public required Guid Id { get; set; }
-        public required string Package { get; set; }
-        public required string VersionRange { get; set; }
-        public required string PrereleaseTag { get; set; }
+        public Guid Id { get; set; }
+        [Required]
+        public string Package { get; set; }
+        public string VersionRange { get; set; }
+        public string PrereleaseTag { get; set; }
 
-        public required string Project { get; set; }
-        public required string Channel { get; set; }
-        public required bool Enabled { get; set; }
+        [Required]
+        public string Project { get; set; }
+        public string Channel { get; set; }
+        public bool Enabled { get; set; }
     }
 }

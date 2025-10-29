@@ -4,9 +4,9 @@ namespace Feedz.Client.Resources
 {
     public class UserEventResource : IResource
     {
-        public required Guid Id { get; set; }
-        public required DateTimeOffset Occured { get; set; }
-        public required string Type { get; set; }
-        public required string Description { get; set; }
+        public Guid Id { get; set; }
+        public DateTimeOffset Occured { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
     }
 }
