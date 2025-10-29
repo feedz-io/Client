@@ -29,7 +29,7 @@ jobs:
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v4
         with:
-          versionSpec: '5.x'
+          versionSpec: '6.x'
 
       - name: Run GitVersion
         id: gitversion
@@ -54,6 +54,14 @@ jobs:
       - name: Pack
         run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GITVERSION_SEMVER
         working-directory: src
+
+      - name: Create and push git tag
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a $GITVERSION_SEMVER -m "Release $GITVERSION_SEMVER"
+          git push origin $GITVERSION_SEMVER
 
       - name: Push NuGet packages to Feedz ⬆️
         working-directory: artifacts
