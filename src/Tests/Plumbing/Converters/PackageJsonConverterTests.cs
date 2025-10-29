@@ -13,11 +13,11 @@ namespace Feedz.Client.Tests.Plumbing.Converters
         [Test]
         public void NuGet()
         {
-            var package = new NpmPackageResource()
+            var package = new NuGetPackageResource()
             {
                 Id = Guid.NewGuid(),
-                Type = "Npm",
-                PackageId = "test-package",
+                Type = "NuGet",
+                PackageId = "Test.Package",
                 Version = "1.0.0",
                 IsPrerelease = false,
                 Listed = true,
@@ -30,16 +30,12 @@ namespace Feedz.Client.Tests.Plumbing.Converters
                 VersionDownloadCount = 0,
                 DownloadCount = 0,
                 DownloadLink = "https://example.com/download",
-                Deprecated = "",
-                Dependencies = new Dictionary<string, string>(),
-                OptionalDependencies = new Dictionary<string, string>(),
-                DevDependencies = new Dictionary<string, string>(),
-                PeerDependencies = new Dictionary<string, string>(),
-                BundleDependencies = new Dictionary<string, string>(),
-                Homepage = "https://example.com",
-                Keywords = [],
-                License = "MIT",
-                Readme = "# Test Package"
+                Authors = new List<string> { "Test Author" },
+                Owners = new List<string> { "Test Owner" },
+                RequireLicenseAcceptance = false,
+                DependencyGroups = new List<NuGetPackageResource.DependencyGroup>(),
+                IsSemVer2 = false,
+                PackageSha256 = "sha256hash"
             };
             Execute(package).Should().BeOfType<NuGetPackageResource>();
         }
@@ -71,11 +67,11 @@ namespace Feedz.Client.Tests.Plumbing.Converters
         [Test]
         public void Npm()
         {
-            var package = new NuGetPackageResource()
+            var package = new NpmPackageResource()
             {
                 Id = Guid.NewGuid(),
-                Type = "NuGet",
-                PackageId = "Test.Package",
+                Type = "Npm",
+                PackageId = "test-package",
                 Version = "1.0.0",
                 IsPrerelease = false,
                 Listed = true,
@@ -88,12 +84,16 @@ namespace Feedz.Client.Tests.Plumbing.Converters
                 VersionDownloadCount = 0,
                 DownloadCount = 0,
                 DownloadLink = "https://example.com/download",
-                Authors = new List<string> { "Test Author" },
-                Owners = new List<string> { "Test Owner" },
-                RequireLicenseAcceptance = false,
-                DependencyGroups = new List<NuGetPackageResource.DependencyGroup>(),
-                IsSemVer2 = false,
-                PackageSha256 = "sha256hash"
+                Deprecated = "",
+                Dependencies = new Dictionary<string, string>(),
+                OptionalDependencies = new Dictionary<string, string>(),
+                DevDependencies = new Dictionary<string, string>(),
+                PeerDependencies = new Dictionary<string, string>(),
+                BundleDependencies = new Dictionary<string, string>(),
+                Homepage = "https://example.com",
+                Keywords = [],
+                License = "MIT",
+                Readme = "# Test Package"
             };
             Execute(package).Should().BeOfType<NpmPackageResource>();
         }
