@@ -37,14 +37,14 @@ jobs:
 
       - name: Display SemVer
         run: |
-            echo "SemVer: $GITVERSION_SEMVER"
+            echo "SemVer: $GitVersion_SemVer"
 
       - name: Restore
         run: dotnet restore
         working-directory: src
 
       - name: Build
-        run: dotnet build -c Release --no-restore /p:Version=$GITVERSION_SEMVER
+        run: dotnet build -c Release --no-restore /p:Version=$GitVersion_SemVer
         working-directory: src
 
       - name: Test
@@ -52,7 +52,7 @@ jobs:
         working-directory: src
 
       - name: Pack
-        run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GITVERSION_SEMVER
+        run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GitVersion_SemVer
         working-directory: src
 
       - name: Create and push git tag
@@ -60,12 +60,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a $GITVERSION_SEMVER -m "Release $GITVERSION_SEMVER"
-          git push origin $GITVERSION_SEMVER
+          git tag -a $GitVersion_SemVer -m "Release $GitVersion_SemVer"
+          git push origin $GitVersion_SemVer
 
       - name: Push NuGet packages to Feedz ⬆️
         working-directory: artifacts
-        run: dotnet nuget push Feedz.Client.$GITVERSION_SEMVER.nupkg --api-key ${{ secrets.FEEDZ_APIKEY }} -s https://f.feedz.io/feedz-io/public/nuget/index.json
+        run: dotnet nuget push Feedz.Client.$GitVersion_SemVer.nupkg --api-key ${{ secrets.FEEDZ_APIKEY }} -s https://f.feedz.io/feedz-io/public/nuget/index.json
 
       - name: Test Report 🧪
         uses: dorny/test-reporter@v1
@@ -78,6 +78,6 @@ jobs:
       - name: Create GitHub Release
         if: ${{ github.ref == 'refs/heads/main' && format('{0}', env.GITHUB_TOKEN) != '' }}
         working-directory: artifacts
-        run: gh release create --draft ${{ steps.gitversion.outputs.preReleaseLabel != '' && '--prerelease' || '' }} --target ${{ github.ref_name }} --title $GITVERSION_SEMVER $GITVERSION_SEMVER Feedz.Client.$GITVERSION_SEMVER.nupkg
+        run: gh release create --draft ${{ steps.gitversion.outputs.preReleaseLabel != '' && '--prerelease' || '' }} --target ${{ github.ref_name }} --title $GitVersion_SemVer $GitVersion_SemVer Feedz.Client.$GitVersion_SemVer.nupkg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
