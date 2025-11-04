@@ -228,7 +228,13 @@ namespace Feedz.Client.Plumbing
                     return readResponse
                         ? (T) (object) await response.Content.ReadAsStreamAsync()
                         : default(T);
-
+                
+                case "text/csv":
+                    var csv = await response.Content.ReadAsStringAsync();
+                    CheckSuccess(csv);
+                    if (typeof(T) != typeof(string))
+                        throw new Exception($"API returned csv, but expected type is {typeof(T)}");
+                    return (T) (object) csv;
                 default:
                     var content = await response.Content.ReadAsStringAsync();
                     CheckSuccess(content);
