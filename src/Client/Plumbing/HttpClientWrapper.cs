@@ -222,6 +222,7 @@ namespace Feedz.Client.Plumbing
                         : default(T);
 
                 case "application/octet-stream":
+                case "image/png":
                     CheckSuccess("<Stream>");
                     if (typeof(T) != typeof(Stream))
                         throw new Exception("API returned file, but no file was expected");
