@@ -23,8 +23,8 @@ namespace Feedz.Client
         }
 
 
-        internal IHttpClientWrapper ApiClientWrapper { get; }
-        internal IHttpClientWrapper FeedClientWrapper { get; }
+        public IHttpClientWrapper ApiClientWrapper { get; }
+        public IHttpClientWrapper FeedClientWrapper { get; }
 
         public IFeedzLogger Log { get; set; }
         public Organisations Organisations { get; }

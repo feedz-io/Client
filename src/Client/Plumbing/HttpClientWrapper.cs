@@ -14,7 +14,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Feedz.Client.Plumbing
 {
-    internal interface IHttpClientWrapper : IDisposable
+    public interface IHttpClientWrapper : IDisposable
     {
         Task<IReadOnlyList<T>> List<T>(string path);
         Task<T> Get<T>(string path);
