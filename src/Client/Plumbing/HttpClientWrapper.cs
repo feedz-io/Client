@@ -221,14 +221,7 @@ namespace Feedz.Client.Plumbing
                         ? JsonConvert.DeserializeObject<T>(json, JsonSerializerSettings)
                         : default(T);
 
-                case "application/octet-stream":
-                case "image/png":
-                    CheckSuccess("<Stream>");
-                    if (typeof(T) != typeof(Stream))
-                        throw new Exception("API returned file, but no file was expected");
-                    return readResponse
-                        ? (T) (object) await response.Content.ReadAsStreamAsync()
-                        : default(T);
+               
                 
                 case "text/csv":
                     var csv = await response.Content.ReadAsStringAsync();
@@ -237,6 +230,14 @@ namespace Feedz.Client.Plumbing
                         throw new Exception($"API returned csv, but expected type is {typeof(T)}");
                     return (T) (object) csv;
                 default:
+                    if (typeof(T) == typeof(Stream))
+                    {
+                        CheckSuccess("<Stream>");
+                        return readResponse
+                            ? (T)(object)await response.Content.ReadAsStreamAsync()
+                            : default(T);
+                    }
+
                     var content = await response.Content.ReadAsStringAsync();
                     CheckSuccess(content);
 
